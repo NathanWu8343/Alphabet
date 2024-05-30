@@ -5,5 +5,8 @@ namespace UrlShortener.Domain.Entities
     public class VistorCounter : AggregateRoot<string>
     {
         public int Count { get; private set; }
+
+        private VistorCounter()
+        { }
     }
 }
