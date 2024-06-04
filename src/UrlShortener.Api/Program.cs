@@ -1,3 +1,18 @@
+using Elastic.Apm.SerilogEnricher;
+using Elastic.CommonSchema.Serilog;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
+using Serilog;
+using Serilog.Sinks.Elasticsearch;
+using System.Text;
+using UrlShortener.Api.Extensions;
+using UrlShortener.Api.Filters;
+using UrlShortener.Api.Infrastructure.OpenApi;
+using UrlShortener.Api.Middlewares;
+using UrlShortener.Application;
+using UrlShortener.Infrastructure;
+using UrlShortener.Persistence;
 
 namespace UrlShortener.Api
 {
@@ -8,23 +23,64 @@ namespace UrlShortener.Api
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services
+                .AddApplication()
+                .AddPersistence(builder.Configuration)
+                .AddInfrastructure(builder.Configuration);
 
-            builder.Services.AddControllers();
+            builder.Services.Configure<RouteOptions>(options =>
+            {
+                options.LowercaseUrls = true;
+                options.LowercaseQueryStrings = true;
+            });
+
+            builder.Services.AddVersion();
+
+            builder.Services.AddOpenApi();
+
+            builder.Services.AddSingleton<TimeProvider>(TimeProvider.System);
+
+            builder.Services.
+                AddControllers(options =>
+                {
+                    options.Filters.Add<ModelStateValidationAttribute>();
+                })
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    // 當您的動作可以從模型驗證錯誤復原時，停用預設行為將會有所幫助。
+                    options.SuppressModelStateInvalidFilter = true;
+                });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options =>
+                    {
+                        options.IncludeErrorDetails = true; // 預設值為 true，有時會特別關閉
+
+                        //IdentityServer地址
+                        options.Authority = "http://localhost:5136";
+                        //對應Idp中ApiResource的Name
+                        options.Audience = "urlshortener-api";
+                        //不使用https
+                        options.RequireHttpsMetadata = false;
+                    });
+            ;
 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseOpenApi();
+                app.ApplyMigrations();
             }
 
-            app.UseAuthorization();
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
+            app.UseInfrastructure();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseSerilogRequestLogging();
 
             app.MapControllers();
 

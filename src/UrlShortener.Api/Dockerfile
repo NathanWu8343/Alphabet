@@ -5,9 +5,9 @@ USER app
 WORKDIR /app
 EXPOSE 8080
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine3.18 AS build
 ARG BUILD_CONFIGURATION=Release
-WORKDIR /src
+WORKDIR /src504
 COPY ["src/UrlShortener.Api/UrlShortener.Api.csproj", "src/UrlShortener.Api/"]
 RUN dotnet restore "./src/UrlShortener.Api/UrlShortener.Api.csproj"
 COPY . .

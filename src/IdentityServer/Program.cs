@@ -1,7 +1,8 @@
+using IdentityServer.Configs;
 
 namespace IdentityServer
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
@@ -9,27 +10,42 @@ namespace IdentityServer
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            //builder.Services.AddControllers();
+            //// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            //builder.Services.AddEndpointsApiExplorer();
+            //builder.Services.AddSwaggerGen();
+
+            // var identityConfig = builder.Configuration.GetSection("Identity").Get<IdentityConfig>()!;
+
+            builder.Services.AddIdentityServer(options =>
+            {
+                options.Events.RaiseErrorEvents = true;
+                options.Events.RaiseInformationEvents = true;
+                options.Events.RaiseFailureEvents = true;
+                options.Events.RaiseSuccessEvents = true;
+            })
+            .AddInMemoryIdentityResources(IdentityConfig.GetResources())
+            .AddInMemoryApiScopes(IdentityConfig.GetApiScopes())
+            .AddInMemoryApiResources(IdentityConfig.GetApis())
+            .AddInMemoryClients(IdentityConfig.GetClients())
+            .AddDeveloperSigningCredential();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            //// Configure the HTTP request pipeline.
+            //if (app.Environment.IsDevelopment())
+            //{
+            //    app.UseSwagger();
+            //    app.UseSwaggerUI();
+            //}
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
+            //app.MapControllers();
 
-            app.MapControllers();
-
+            app.UseIdentityServer();
             app.Run();
         }
     }

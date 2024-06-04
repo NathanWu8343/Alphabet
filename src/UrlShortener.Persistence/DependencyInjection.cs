@@ -1,0 +1,60 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using MySqlConnector;
+using SharedKernel.Common;
+using UrlShortener.Application.Abstractions;
+using UrlShortener.Domain.Repositories;
+using UrlShortener.Persistence.Interceptors;
+using UrlShortener.Persistence.Repositories;
+using UrlShortener.Persistence.Repositories.Redis;
+
+namespace UrlShortener.Persistence
+{
+    public static class DependencyInjection
+    {
+        /// <summary>
+        /// Registers the necessary services with the DI framework.
+        /// </summary>
+        /// <param name="services">The service collection.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns>The same service collection.</returns>
+        public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
+        {
+            string? connectionString = configuration.GetConnectionString("Database");
+            Ensure.NotNullOrEmpty(connectionString);
+
+            services.AddSingleton(_ =>
+                new DbConnectionFactory(new MySqlConnection(connectionString)));
+
+            services.AddSingleton<ConvertDomainEventsToOutboxMessagesInterceptor>();
+            services.AddSingleton<UpdateAuditableEntitiesInterceptor>();
+
+            var serverVersion = new MariaDbServerVersion(new Version(10, 5, 5));
+
+            // DB
+            services.AddDbContext<ApplicationDbContext>(
+            (sp, options) => options
+                 .UseMySql(connectionString, serverVersion)
+                 .LogTo(Console.WriteLine, LogLevel.Information)
+                 .AddInterceptors(
+                        sp.GetRequiredService<ConvertDomainEventsToOutboxMessagesInterceptor>(),
+                        sp.GetRequiredService<UpdateAuditableEntitiesInterceptor>())
+                 );
+            //.UseSnakeCaseNamingConvention();
+            //.AddInterceptors(sp.GetRequiredService<InsertOutboxMessagesInterceptor>()));
+
+            services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
+            services.AddScoped<IDbContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
+
+            //repositoryTransient
+            services.AddScoped<IShortenedUrlRepository, ShortenedUrlRepository>();
+
+            //
+            services.AddScoped<IVistorCounterRespository, VistorCounterRespository>();
+
+            return services;
+        }
+    }
+}
