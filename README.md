@@ -4,6 +4,7 @@
 主要功能為簡易的URL縮短器, 目的研究新技術使用
 
 ## 功能
+- 待補
 
 ## 架構
 - 系統圖(待補)
@@ -46,4 +47,5 @@
 - HealthChecks (技術)
 - Event Sourcing (架構)
 - Polly (技術)
-
+- GitHub Action (CI/CD)
+- GRPC (技術)

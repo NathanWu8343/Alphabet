@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0- Solution Items", "0- Solution Items", "{9D5FF220-CFB5-454B-A97F-8616AC83D2EF}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1- UrlShortener", "1- UrlShortener", "{7EBD9A16-6471-4DDD-8CC0-E594EE42345B}"
@@ -38,7 +39,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArchitectureTests", "src\Ar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UrlShortener.Application.UnitTests", "src\UrlShortener.Application.UnitTests\UrlShortener.Application.UnitTests.csproj", "{F4D28080-5332-4A98-8264-48E2589E8ADD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrlShortener.IntegrationTests", "src\UrlShortener.IntegrationTests\UrlShortener.IntegrationTests.csproj", "{808C8680-1DAE-4876-A91E-BAAC17956414}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UrlShortener.IntegrationTests", "src\UrlShortener.IntegrationTests\UrlShortener.IntegrationTests.csproj", "{808C8680-1DAE-4876-A91E-BAAC17956414}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{84ED1F68-89F8-4734-99C7-B51584082297}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -94,6 +97,10 @@ Global
 		{808C8680-1DAE-4876-A91E-BAAC17956414}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{808C8680-1DAE-4876-A91E-BAAC17956414}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{808C8680-1DAE-4876-A91E-BAAC17956414}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84ED1F68-89F8-4734-99C7-B51584082297}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84ED1F68-89F8-4734-99C7-B51584082297}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84ED1F68-89F8-4734-99C7-B51584082297}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84ED1F68-89F8-4734-99C7-B51584082297}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
