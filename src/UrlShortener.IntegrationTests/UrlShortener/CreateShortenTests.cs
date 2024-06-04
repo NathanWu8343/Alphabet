@@ -27,8 +27,10 @@ namespace UrlShortener.IntegrationTests.UrlShortener
             // Act
             HttpResponseMessage response = await HttpClientStub.PostAsJsonAsync(requestUri: "api/v1/shorten/create", request);
 
-            // Assert
+            // Assert (HTTP)
             response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            // Assert (HTTP Content Response)
             response.GetApiResponse<string>().Should().NotBeNull();
         }
     }
