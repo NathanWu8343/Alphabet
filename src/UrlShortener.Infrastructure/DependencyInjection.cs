@@ -15,11 +15,13 @@ namespace UrlShortener.Infrastructure
     {
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            string? redisString = configuration.GetConnectionString("Redis");
-            Ensure.NotNullOrEmpty(redisString);
-
             //redis
-            services.AddSingleton<IRedisConnectionFactory, RedisConnectionFactory>(svc => new RedisConnectionFactory(redisString));
+            services.AddSingleton<IRedisConnectionFactory, RedisConnectionFactory>(svc =>
+            {
+                string? redisString = configuration.GetConnectionString("Redis");
+                Ensure.NotNullOrEmpty(redisString);
+                return new RedisConnectionFactory(redisString);
+            });
             services.AddSingleton<ICacheProvider, RedisCacheProvider>();
 
             services.AddTransient<IShortCodeGenerator, HashBasedShortCodeGenerator>();

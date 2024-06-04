@@ -5,7 +5,7 @@ namespace UrlShortener.Persistence
 {
     internal sealed class DbConnectionFactory(MySqlConnection connection)
     {
-        public IDbConnection OpenConnection()
+        public IDbConnection GetConnection()
         {
             return connection;
         }

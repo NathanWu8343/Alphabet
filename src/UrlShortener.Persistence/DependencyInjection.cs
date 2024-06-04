@@ -6,6 +6,7 @@ using MySqlConnector;
 using SharedKernel.Common;
 using UrlShortener.Application.Abstractions;
 using UrlShortener.Domain.Repositories;
+using UrlShortener.Persistence.Extensions;
 using UrlShortener.Persistence.Interceptors;
 using UrlShortener.Persistence.Repositories;
 using UrlShortener.Persistence.Repositories.Redis;
@@ -22,11 +23,12 @@ namespace UrlShortener.Persistence
         /// <returns>The same service collection.</returns>
         public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
-            string? connectionString = configuration.GetConnectionString("Database");
-            Ensure.NotNullOrEmpty(connectionString);
-
-            services.AddSingleton(_ =>
-                new DbConnectionFactory(new MySqlConnection(connectionString)));
+            services.AddSingleton<DbConnectionFactory>(_ =>
+            {
+                string? connectionString = configuration.GetConnectionString("Database");
+                Ensure.NotNullOrEmpty(connectionString);
+                return new DbConnectionFactory(new MySqlConnection(connectionString));
+            });
 
             services.AddSingleton<ConvertDomainEventsToOutboxMessagesInterceptor>();
             services.AddSingleton<UpdateAuditableEntitiesInterceptor>();
@@ -36,7 +38,7 @@ namespace UrlShortener.Persistence
             // DB
             services.AddDbContext<ApplicationDbContext>(
             (sp, options) => options
-                 .UseMySql(connectionString, serverVersion)
+                 .UseMySql(sp.GetRequiredService<DbConnectionFactory>(), serverVersion)
                  .LogTo(Console.WriteLine, LogLevel.Information)
                  .AddInterceptors(
                         sp.GetRequiredService<ConvertDomainEventsToOutboxMessagesInterceptor>(),

@@ -33,14 +33,14 @@ namespace UrlShortener.Application.Features.UrlShorteners.Commands
     /// <summary>
     /// Represents the <see cref="CreateShortUrlCommand"/> handler.
     /// </summary>
-    public sealed class CreateShortUrlCommandHandel : ICommandHandler<CreateShortUrlCommand, Result<string>>
+    public sealed class CreateShortUrlCommandHandler : ICommandHandler<CreateShortUrlCommand, Result<string>>
     {
         private readonly IShortenedUrlRepository _shortendUrlRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IShortCodeGenerator _shortCodeGenerator;
         private readonly TimeProvider _timeProvider;
 
-        public CreateShortUrlCommandHandel(IShortenedUrlRepository shortendUrlRepository, IUnitOfWork unitOfWork, IShortCodeGenerator shortCodeGenerator, TimeProvider timeProvider)
+        public CreateShortUrlCommandHandler(IShortenedUrlRepository shortendUrlRepository, IUnitOfWork unitOfWork, IShortCodeGenerator shortCodeGenerator, TimeProvider timeProvider)
         {
             _shortendUrlRepository = shortendUrlRepository;
             _unitOfWork = unitOfWork;

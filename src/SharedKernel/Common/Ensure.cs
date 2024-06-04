@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharedKernel.Common
 {
@@ -74,7 +69,7 @@ namespace SharedKernel.Common
         /// <param name="message">The message to show if the check fails.</param>
         /// <param name="argumentName">The name of the argument being checked.</param>
         /// <exception cref="ArgumentNullException"> if the specified value is null.</exception>
-        public static void NotNull<T>([NotNull] T value, string message, [CallerArgumentExpression("value")] string? argumentName = null)
+        public static void NotNull<T>(T? value, string message, [CallerArgumentExpression("value")] string? argumentName = null)
             where T : class
         {
             if (value is null)

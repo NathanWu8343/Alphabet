@@ -1,11 +1,5 @@
-using Elastic.Apm.SerilogEnricher;
-using Elastic.CommonSchema.Serilog;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.IdentityModel.Tokens;
 using Serilog;
-using Serilog.Sinks.Elasticsearch;
-using System.Text;
 using UrlShortener.Api.Extensions;
 using UrlShortener.Api.Filters;
 using UrlShortener.Api.Infrastructure.OpenApi;

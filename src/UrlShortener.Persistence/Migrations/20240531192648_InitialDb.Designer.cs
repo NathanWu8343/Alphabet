@@ -12,7 +12,7 @@ using UrlShortener.Persistence;
 namespace UrlShortener.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240522112956_InitialDb")]
+    [Migration("20240531192648_InitialDb")]
     partial class InitialDb
     {
         /// <inheritdoc />
@@ -41,7 +41,7 @@ namespace UrlShortener.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("ShorUrl")
+                    b.Property<string>("ShortUrl")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -51,6 +51,47 @@ namespace UrlShortener.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("ShortenedUrls", (string)null);
+                });
+
+            modelBuilder.Entity("UrlShortener.Persistence.Outbox.OutboxMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Error")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("OccurredAtUtc")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("ProcessedAtUtc")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OutboxMessages", (string)null);
+                });
+
+            modelBuilder.Entity("UrlShortener.Persistence.Outbox.OutboxMessageConsumer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id", "Name");
+
+                    b.ToTable("OutboxMessageConsumers", (string)null);
                 });
 #pragma warning restore 612, 618
         }

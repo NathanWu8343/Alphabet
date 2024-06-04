@@ -1,5 +1,6 @@
 ﻿using SharedKernel.Common;
 using SharedKernel.Core;
+using UrlShortener.Domain.Events;
 using UrlShortener.Domain.ValueObjects;
 
 namespace UrlShortener.Domain.Entities
@@ -21,6 +22,8 @@ namespace UrlShortener.Domain.Entities
             ShortUrl = shortUrl;
             Code = code;
             CreatedAtUtc = createdAtUtc;
+
+            AddDomainEvent(new ShortenedUrlCreatedDomainEvent(Id));
         }
 
         private ShortenedUrl()
@@ -30,7 +33,7 @@ namespace UrlShortener.Domain.Entities
         public static ShortenedUrl Create(string longUrl, string shortUrl, string code, DateTime createdAtUtc)
         {
             Ensure.NotEmpty(longUrl, "The long Url is required.");
-            Ensure.NotEmpty(shortUrl, "The shor path is required.");
+            Ensure.NotEmpty(shortUrl, "The short path is required.");
             Ensure.NotEmpty(code, "The code is required.");
 
             return new ShortenedUrl(new ShortenedUrlId(Guid.NewGuid()), longUrl, shortUrl, code, createdAtUtc);

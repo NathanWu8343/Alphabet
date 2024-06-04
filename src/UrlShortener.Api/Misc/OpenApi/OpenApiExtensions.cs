@@ -1,7 +1,4 @@
 ﻿using Asp.Versioning.ApiExplorer;
-using Google.Protobuf.WellKnownTypes;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;

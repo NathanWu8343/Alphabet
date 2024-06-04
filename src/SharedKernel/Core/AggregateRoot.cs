@@ -31,7 +31,7 @@
         /// <summary>
         /// Gets the domain events. This collection is readonly.
         /// </summary>
-        public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
+        public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.ToList();
 
         /// <summary>
         /// Clears all the domain events from the <see cref="AggregateRoot{TKey}"/>.
