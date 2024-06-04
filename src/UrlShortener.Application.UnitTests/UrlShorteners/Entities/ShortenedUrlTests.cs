@@ -1,4 +1,5 @@
-﻿using UrlShortener.Domain.Entities;
+﻿using Bogus;
+using UrlShortener.Domain.Entities;
 using UrlShortener.Domain.Events;
 
 namespace UrlShortener.Application.UnitTests.UrlShorteners.Entities
@@ -9,14 +10,18 @@ namespace UrlShortener.Application.UnitTests.UrlShorteners.Entities
         public void Craete_Should_RasieDomainEvent()
         {
             // Act
-            var shortenedUrl = ShortenedUrl.Create(
-                "http://google.com",
-                "http://localhost/xxx/api/xxx",
-                "xxx",
-                DateTime.UtcNow);
+            var shortenedUrl = new Faker<ShortenedUrl>()
+                .CustomInstantiator(faker => ShortenedUrl.Create(
+                     faker.Internet.Url(),
+                     "http://localhost/xxx/api/xxx",
+                     "xxx",
+                     DateTime.UtcNow
+                    ));
+
+            var act = shortenedUrl.Generate();
 
             // Assert
-            Assert.NotEmpty(shortenedUrl.DomainEvents.OfType<ShortenedUrlCreatedDomainEvent>());
+            Assert.NotEmpty(act.DomainEvents.OfType<ShortenedUrlCreatedDomainEvent>());
         }
     }
 }

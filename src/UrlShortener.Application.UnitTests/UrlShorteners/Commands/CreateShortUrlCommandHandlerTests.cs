@@ -8,7 +8,6 @@ using UrlShortener.Domain.Repositories;
 
 namespace UrlShortener.Application.UnitTests.UrlShorteners.Commands
 {
-    [Trait("Priority", "1"), Trait("Category", "CategoryA")]
     public class CreateShortUrlCommandHandlerTests
     {
         private static readonly CreateShortUrlCommand Command = new(
