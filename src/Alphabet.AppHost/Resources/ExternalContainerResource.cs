@@ -3,6 +3,7 @@ using CliWrap;
 using CliWrap.Buffered;
 using CliWrap.EventStream;
 using Microsoft.Extensions.Logging;
+using System.Threading;
 
 namespace Alphabet.AppHost.Resources
 {
@@ -38,7 +39,7 @@ namespace Alphabet.AppHost.Resources
     {
         private const string DOCKER_HOST = "localhost";
         private readonly CancellationTokenSource _tokenSource = new();
-        private readonly SemaphoreSlim _signal = new(0);
+        private readonly AutoResetEvent _autoResetEvent = new AutoResetEvent(false);
 
         public async Task BeforeStartAsync(DistributedApplicationModel appModel, CancellationToken cancellationToken = default)
         {
@@ -97,7 +98,7 @@ namespace Alphabet.AppHost.Resources
             {
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    await _signal.WaitAsync(cancellationToken);
+                    _autoResetEvent.WaitOne(); // 等待檢查
                     var result = await Cli.Wrap("docker")
                                 .WithArguments(["inspect", resource.ContainerNameOrId, "--format", "'{{json .State.Status}}'"])
                                 .ExecuteBufferedAsync(cancellationToken);
@@ -106,7 +107,7 @@ namespace Alphabet.AppHost.Resources
                     if (stdOut.Contains("running"))
                         StartTrackingExternalContainerLogs(resource, cancellationToken);
                     else
-                        _signal.Release(); // 持續檢查
+                        _autoResetEvent.Reset(); // 持續檢查
 
                     await Task.Delay(TimeSpan.FromSeconds(1));
                 }
@@ -148,7 +149,7 @@ namespace Alphabet.AppHost.Resources
                 }
 
                 // 開啟 health check
-                _signal.Release();
+                _autoResetEvent.Reset();
             }, cancellationToken);
         }
 
