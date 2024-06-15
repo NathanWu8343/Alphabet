@@ -1,4 +1,5 @@
 using IdentityServer.Configs;
+using UrlShortener.Infrastructure;
 
 namespace IdentityServer
 {
@@ -7,6 +8,9 @@ namespace IdentityServer
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.AddServiceDefaults();
+
+            builder.ConfigureSerilog();
 
             // Add services to the container.
 
@@ -31,6 +35,8 @@ namespace IdentityServer
             .AddDeveloperSigningCredential();
 
             var app = builder.Build();
+
+            app.MapDefaultEndpoints();
 
             //// Configure the HTTP request pipeline.
             //if (app.Environment.IsDevelopment())

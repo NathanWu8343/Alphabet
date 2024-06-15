@@ -16,7 +16,11 @@ namespace UrlShortener.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            // Add service defaults & Aspire components.
+            builder.AddServiceDefaults();
+
+            builder.ConfigureSerilog();
+
             builder.Services
                 .AddApplication()
                 .AddPersistence(builder.Configuration)
@@ -41,7 +45,7 @@ namespace UrlShortener.Api
                 })
                 .ConfigureApiBehaviorOptions(options =>
                 {
-                    // ·í±zªº°Ê§@¥i¥H±q¼Ò«¬ÅçÃÒ¿ù»~´_­ì®É¡A°±¥Î¹w³]¦æ¬°±N·|¦³©ÒÀ°§U¡C
+                    // ç•¶æ‚¨çš„å‹•ä½œå¯ä»¥å¾æ¨¡å‹é©—è­‰éŒ¯èª¤å¾©åŸæ™‚ï¼Œåœç”¨é è¨­è¡Œç‚ºå°‡æœƒæœ‰æ‰€å¹«åŠ©ã€‚
                     options.SuppressModelStateInvalidFilter = true;
                 });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -49,18 +53,20 @@ namespace UrlShortener.Api
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
                     {
-                        options.IncludeErrorDetails = true; // ¹w³]­È¬° true¡A¦³®É·|¯S§OÃö³¬
+                        options.IncludeErrorDetails = true; // é è¨­å€¼ç‚º trueï¼Œæœ‰æ™‚æœƒç‰¹åˆ¥é—œé–‰
 
-                        //IdentityServer¦a§}
+                        //IdentityServeråœ°å€
                         options.Authority = "http://localhost:5136";
-                        //¹ïÀ³Idp¤¤ApiResourceªºName
+                        //å°æ‡‰Idpä¸­ApiResourceçš„Name
                         options.Audience = "urlshortener-api";
-                        //¤£¨Ï¥Îhttps
+                        //ä¸ä½¿ç”¨https
                         options.RequireHttpsMetadata = false;
                     });
             ;
 
             var app = builder.Build();
+
+            app.MapDefaultEndpoints();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

@@ -19,4 +19,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Alphabet.ServiceDefaults\Alphabet.ServiceDefaults.csproj" />
+  </ItemGroup>
+
 </Project>

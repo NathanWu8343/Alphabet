@@ -26,7 +26,7 @@ namespace UrlShortener.Application.Features.UrlShorteners.Queries
         {
             var url = await _dbContext.ShortendUrls
                 .Where(x => x.Code == request.Code)
-                .Select(x => x.Code)
+                .Select(x => x.LongUrl)
                 .FirstOrDefaultAsync(cancellationToken);
 
             if (url is null)

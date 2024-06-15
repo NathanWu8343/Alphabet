@@ -15,7 +15,7 @@
 - Result Pattern
 - Repository Pattern
 - Authentication + Authorization 
-- Geteway
+- Gateway
 
 ## 技術
 - APS.NET Core 8.0
@@ -30,6 +30,7 @@
 - Cache (Redis)
 - Serilog
 - ELK APM
+- Aspire (實作 ExternalContainerResource, ExternalHostResource)
 
 ## 測試
 - Unit
@@ -49,3 +50,5 @@
 - Polly (技術)
 - GitHub Action (CI/CD)
 - GRPC (技術)
+- Transactional Outbox (架構)
+- Idempotence (架構)

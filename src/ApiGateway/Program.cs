@@ -1,4 +1,4 @@
-﻿using ApiGateway.Configs;
+using ApiGateway.Configs;
 using ApiGateway.Extensions;
 using ApiGateway.Swagger;
 using ApiGateway.Swagger.Extensions;
@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using UrlShortener.Infrastructure;
 
 namespace ApiGateway
 {
@@ -15,9 +16,14 @@ namespace ApiGateway
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.AddServiceDefaults();
 
+            builder.ConfigureSerilog();
             // Add services to the container.
             //builder.Services.AddControllers();
+
+            // Add YARP Direct Forwarding with Service Discovery support
+            //builder.Services.AddHttpForwarderWithServiceDiscovery();
 
             //TODO: 需要增加middleware來處來對應router才要驗證, 其餘不用
 
@@ -40,9 +46,13 @@ namespace ApiGateway
 
             builder.Services.AddReverseProxy()
                 .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"))
-                .AddSwagger(builder.Configuration.GetSection("ReverseProxy"));
+                .AddSwagger(builder.Configuration.GetSection("ReverseProxy"))
+                .AddServiceDiscoveryDestinationResolver()     // Add YARP Direct Forwarding with Service Discovery support
+                ;
 
             var app = builder.Build();
+
+            app.MapDefaultEndpoints();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
