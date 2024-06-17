@@ -7,10 +7,12 @@ using System.Threading;
 
 namespace Alphabet.AppHost.Resources
 {
-    internal sealed class ExternalContainerResource(string name, string containerNameOrId, string schema) : Resource(name), IResourceWithEndpoints
+    internal sealed class ExternalContainerResource(string name, string containerNameOrId, string schema, int port) : Resource(name), IResourceWithEndpoints
     {
         public string Schema { get; } = schema;
         public string ContainerNameOrId { get; } = containerNameOrId;
+
+        public int Port { get; } = port;
     }
 
     internal static class ExternalContainerResourceExtensions
@@ -19,11 +21,12 @@ namespace Alphabet.AppHost.Resources
             this IDistributedApplicationBuilder builder,
             string name,
             string containerNameOrId,
-            string scheme)
+            string scheme,
+            int port)
         {
             builder.Services.TryAddLifecycleHook<ExternalContainerResourceLifecycleHook>();
 
-            return builder.AddResource(new ExternalContainerResource(name, containerNameOrId, scheme))
+            return builder.AddResource(new ExternalContainerResource(name, containerNameOrId, scheme, port))
                 .WithInitialState(new CustomResourceSnapshot
                 {
                     ResourceType = "External",
@@ -43,12 +46,11 @@ namespace Alphabet.AppHost.Resources
 
         public async Task BeforeStartAsync(DistributedApplicationModel appModel, CancellationToken cancellationToken = default)
         {
-            var resource = appModel.Resources.OfType<ExternalContainerResource>().FirstOrDefault();
-            if (resource == null)
-                return;
-
-            StartTrackingExternalContainerLogs(resource, _tokenSource.Token);
-            await ShowContainerUrlAsync(resource, _tokenSource.Token);
+            foreach (var resource in appModel.Resources.OfType<ExternalContainerResource>())
+            {
+                StartTrackingExternalContainerLogs(resource, _tokenSource.Token);
+                await ShowContainerUrlAsync(resource, _tokenSource.Token);
+            }
         }
 
         /// <summary>
@@ -64,11 +66,10 @@ namespace Alphabet.AppHost.Resources
 
         public Task AfterResourcesCreatedAsync(DistributedApplicationModel appModel, CancellationToken cancellationToken = default)
         {
-            var resource = appModel.Resources.OfType<ExternalContainerResource>().FirstOrDefault();
-            if (resource == null)
-                return Task.CompletedTask;
-
-            StartHealthCheck(resource, cancellationToken);
+            foreach (var resource in appModel.Resources.OfType<ExternalContainerResource>())
+            {
+                StartHealthCheck(resource, cancellationToken);
+            }
 
             return Task.CompletedTask;
         }
@@ -76,18 +77,11 @@ namespace Alphabet.AppHost.Resources
         private async Task ShowContainerUrlAsync(ExternalContainerResource resource, CancellationToken cancellationToken)
         {
             //
-            var result = await Cli.Wrap("docker")
-                            .WithArguments(["inspect", resource.ContainerNameOrId, "--format", "'{{range $p, $conf := .NetworkSettings.Ports}}{{(index $conf 0).HostPort}}{{end}}'"])
-                            .ExecuteBufferedAsync(cancellationToken);
-            var stdOut = result.StandardOutput.Trim().Replace("'", "");
-            if (int.TryParse(stdOut.Trim(), out var port))
+            var uri = new UrlSnapshot(resource.Name, $"{resource.Schema}://{DOCKER_HOST}:{resource.Port}", false);
+            await notificationService.PublishUpdateAsync(resource, state => state with
             {
-                var uri = new UrlSnapshot(resource.Name, $"{resource.Schema}://{DOCKER_HOST}:{port}", false);
-                await notificationService.PublishUpdateAsync(resource, state => state with
-                {
-                    Urls = [.. state.Urls, uri]
-                });
-            }
+                Urls = [.. state.Urls, uri]
+            });
         }
 
         private Task StartHealthCheck(ExternalContainerResource resource, CancellationToken cancellationToken)

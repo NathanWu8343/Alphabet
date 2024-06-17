@@ -6,9 +6,10 @@ namespace Alphabet.AppHost.Extensions
     {
         public static IResourceBuilder<ExternalContainerResource> AddRedisLocalContainer(
                this IDistributedApplicationBuilder builder,
-               string containerNameOrId)
+               string containerNameOrId,
+               int port)
         {
-            return builder.AddExternalContainer("redis", containerNameOrId, "tcp");
+            return builder.AddExternalContainer("redis", containerNameOrId, "tcp", port);
         }
     }
 }
