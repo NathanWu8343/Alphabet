@@ -55,7 +55,7 @@ namespace UrlShortener.Application.Features.UrlShorteners.Commands
                 request.Url,
                 $"{request.RedirectPath}/{code}",
                 code,
-                _timeProvider.GetUtcNow().Date);
+                _timeProvider.GetUtcNow().DateTime);
             _shortendUrlRepository.Add(shortendUrl);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

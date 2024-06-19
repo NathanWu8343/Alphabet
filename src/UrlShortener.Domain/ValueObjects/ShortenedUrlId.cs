@@ -1,6 +1,6 @@
-﻿using SharedKernel.Core;
+﻿using NUlid;
 
 namespace UrlShortener.Domain.ValueObjects
 {
-    public record ShortenedUrlId(Guid Value);
+    public record ShortenedUrlId(Ulid Value);
 }

@@ -52,7 +52,8 @@ namespace UrlShortener.Persistence.Migrations
                 name: "ShortenedUrls",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Id = table.Column<string>(type: "varchar(26)", maxLength: 26, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     LongUrl = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ShortUrl = table.Column<string>(type: "longtext", nullable: false)

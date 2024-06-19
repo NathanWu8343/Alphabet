@@ -1,4 +1,5 @@
-﻿using SharedKernel.Common;
+﻿using NUlid;
+using SharedKernel.Common;
 using SharedKernel.Core;
 using UrlShortener.Domain.Events;
 using UrlShortener.Domain.ValueObjects;
@@ -36,7 +37,7 @@ namespace UrlShortener.Domain.Entities
             Ensure.NotEmpty(shortUrl, "The short path is required.");
             Ensure.NotEmpty(code, "The code is required.");
 
-            return new ShortenedUrl(new ShortenedUrlId(Guid.NewGuid()), longUrl, shortUrl, code, createdAtUtc);
+            return new ShortenedUrl(new ShortenedUrlId(Ulid.NewUlid()), longUrl, shortUrl, code, createdAtUtc);
         }
     }
 }

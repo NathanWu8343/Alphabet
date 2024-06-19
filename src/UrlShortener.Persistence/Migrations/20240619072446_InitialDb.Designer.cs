@@ -12,7 +12,7 @@ using UrlShortener.Persistence;
 namespace UrlShortener.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240531192648_InitialDb")]
+    [Migration("20240619072446_InitialDb")]
     partial class InitialDb
     {
         /// <inheritdoc />
@@ -27,8 +27,9 @@ namespace UrlShortener.Persistence.Migrations
 
             modelBuilder.Entity("UrlShortener.Domain.Entities.ShortenedUrl", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("Id")
+                        .HasMaxLength(26)
+                        .HasColumnType("varchar(26)");
 
                     b.Property<string>("Code")
                         .IsRequired()
