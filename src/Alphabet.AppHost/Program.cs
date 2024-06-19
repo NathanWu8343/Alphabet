@@ -10,7 +10,7 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 // infra
 var redis = builder.AddRedisLocalContainer("redis", 6379);
-var rabbitmq = builder.AddExternalContainer("rabbitmq", "rabbitmq:3.8-management", "http", 15672);
+var rabbitmq = builder.AddExternalContainer("rabbitmq", "rabbitmq", "http", 15672);
 
 //var resource = builder.AddExternalHost(name: "hub-service", new Uri("https://google.com/"));
 //var a = resource.GetEndpoint("https");
