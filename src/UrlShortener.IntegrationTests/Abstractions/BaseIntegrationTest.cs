@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using UrlShortener.Persistence;
 
 namespace UrlShortener.IntegrationTests.Abstractions
 {
     public abstract class BaseIntegrationTest : IClassFixture<IntegrationTestWebAppFactory>, IAsyncLifetime
     {
-        private readonly IServiceProvider _serviceProvider;
+        protected readonly IServiceProvider _serviceProvider;
         protected readonly HttpClient HttpClientStub;
 
         protected BaseIntegrationTest(IntegrationTestWebAppFactory factory)

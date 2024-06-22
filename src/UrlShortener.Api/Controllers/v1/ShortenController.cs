@@ -33,6 +33,13 @@ namespace UrlShortener.Api.Controllers.v1
         /// <param name="proxyPath"></param>
         /// <param name="request"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// ```json
+        /// {
+        ///  "url": "http://google.com"
+        /// }
+        /// ```
+        /// </remarks>
         [HttpPost]
         [Route("create")]
         public async Task<IActionResult> Create([FromHeader(Name = "x-proxy-api")] string? proxyPath, CreateShortenUrlRequest request)
