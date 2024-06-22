@@ -19,7 +19,7 @@ namespace UrlShortener.IntegrationTests.UrlShortener
         }
 
         [Fact]
-        public async Task Create_Should_ReturnO_WhenRequesIsValid()
+        public async Task Create_Should_ReturnOk_WhenRequesIsValid()
         {
             // Arrange
             var request = Request;
