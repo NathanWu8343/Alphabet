@@ -8,10 +8,14 @@ namespace UrlShortener.Api.Abstractions
     /// </summary>
     public class ApiResponse
     {
+        [JsonConstructor]
+        public ApiResponse()
+        { }
+
         public int Status { get; init; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string? Type { get; set; }
+        public string? Type { get; init; }
 
         public string Title { get; init; } = string.Empty;
 
@@ -24,7 +28,7 @@ namespace UrlShortener.Api.Abstractions
         public string? Instance { get; init; }
 
         [JsonExtensionData]
-        public IDictionary<string, object?> Extensions { get; set; } = new Dictionary<string, object?>(StringComparer.Ordinal);
+        public IDictionary<string, object?> Extensions { get; init; } = new Dictionary<string, object?>(StringComparer.Ordinal);
 
         public static ApiResponse Success()
         {

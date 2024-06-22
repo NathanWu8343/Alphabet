@@ -2,6 +2,6 @@
 {
     public class ApiResponse<T> : ApiResponse
     {
-        public T Data { get; init; }
+        public T? Data { get; init; }
     }
 }
