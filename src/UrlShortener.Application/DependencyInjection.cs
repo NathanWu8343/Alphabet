@@ -1,7 +1,8 @@
 ﻿using FluentValidation;
+using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using UrlShortener.Application.Behaviors;
+using UrlShortener.Application.Extensions;
 
 namespace UrlShortener.Application
 {
@@ -16,14 +17,22 @@ namespace UrlShortener.Application
         {
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-            services.AddMediatR(cfg =>
+            //services.AddMediatR(cfg =>
+            //{
+            //    cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+
+            //    cfg.AddOpenBehavior(typeof(LoggingPipelineBehavior<,>));
+            //    cfg.AddOpenBehavior(typeof(ValidationPipelineBehavior<,>));
+
+            //    //cfg.AddOpenBehavior(typeof(TransactionBehaviour<,>));
+            //});
+
+            services.AddMediator(cfg =>
             {
-                cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-
-                cfg.AddOpenBehavior(typeof(LoggingPipelineBehavior<,>));
-                cfg.AddOpenBehavior(typeof(ValidationPipelineBehavior<,>));
-
-                //cfg.AddOpenBehavior(typeof(TransactionBehaviour<,>));
+                //   cfg.AddConsumer<CreateShortUrlCommandHandler>();
+                //cfg.AddConsumers(Assembly.GetExecutingAssembly());
+                //cfg.AddConsumers(AssemblyReference.Assembly);
+                cfg.AddConsumersFromAssemblyContaining(UrlShortener.Application.AssemblyReference.Assembly);
             });
 
             return services;

@@ -1,4 +1,4 @@
-﻿using SharedKernel.Core;
+﻿using SharedKernel.Messaging;
 
 namespace UrlShortener.Application.Features.UrlShorteners.Events
 {

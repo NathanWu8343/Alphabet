@@ -1,6 +1,6 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SharedKernel.Errors;
+using SharedKernel.Messaging;
 
 namespace UrlShortener.Api.Abstractions
 {
@@ -10,9 +10,9 @@ namespace UrlShortener.Api.Abstractions
     [ApiController]
     public abstract class ApiController : ControllerBase
     {
-        private IMediator? _mediator;
+        private IDispatcher? _mediator;
 
-        protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetRequiredService<IMediator>();
+        protected IDispatcher Mediator => _mediator ??= HttpContext.RequestServices.GetRequiredService<IDispatcher>();
 
         protected CancellationToken CancellationToken => HttpContext.RequestAborted;
 

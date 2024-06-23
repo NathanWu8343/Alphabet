@@ -1,7 +1,7 @@
-﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SharedKernel.Maybe;
 using SharedKernel.Messaging;
+using SharedKernel.Messaging.Base;
 using UrlShortener.Application.Abstractions;
 using UrlShortener.Application.Features.UrlShorteners.Events;
 
@@ -11,18 +11,19 @@ namespace UrlShortener.Application.Features.UrlShorteners.Queries
     {
     }
 
-    internal sealed class GetVisitShortenUrlByCodeQueryHandler : IQueryHandler<GetVisitShortenUrlByCodeQuery, Maybe<string>>
+    internal sealed class GetVisitShortenUrlByCodeQueryHandler :
+        BaseQueryHandler<GetVisitShortenUrlByCodeQuery, Maybe<string>>
     {
         private readonly IDbContext _dbContext;
-        private readonly IMediator _mediator;
+        private readonly IDispatcher _mediator;
 
-        public GetVisitShortenUrlByCodeQueryHandler(IMediator mediator, IDbContext dbContext)
+        public GetVisitShortenUrlByCodeQueryHandler(IDispatcher mediator, IDbContext dbContext)
         {
             _mediator = mediator;
             _dbContext = dbContext;
         }
 
-        public async Task<Maybe<string>> Handle(GetVisitShortenUrlByCodeQuery request, CancellationToken cancellationToken)
+        public override async Task<Maybe<string>> Handle(GetVisitShortenUrlByCodeQuery request, CancellationToken cancellationToken)
         {
             var url = await _dbContext.ShortendUrls
                 .Where(x => x.Code == request.Code)

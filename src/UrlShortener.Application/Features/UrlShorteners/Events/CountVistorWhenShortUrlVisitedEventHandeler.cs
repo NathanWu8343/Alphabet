@@ -1,9 +1,10 @@
-﻿using SharedKernel.Core;
+using SharedKernel.Messaging.Base;
 using UrlShortener.Domain.Repositories;
 
 namespace UrlShortener.Application.Features.UrlShorteners.Events
 {
-    internal sealed class CountVistorWhenShortUrlVisitedEventHandeler : IEventHandler<ShortUrlVisitedEvent>
+    internal class CountVistorWhenShortUrlVisitedEventHandeler :
+            BaseEventHandler<ShortUrlVisitedEvent>
     {
         private readonly IVistorCounterRespository _vistorCounterRespository;
 
@@ -12,7 +13,7 @@ namespace UrlShortener.Application.Features.UrlShorteners.Events
             _vistorCounterRespository = vistorCounterRespository;
         }
 
-        public async Task Handle(ShortUrlVisitedEvent notification, CancellationToken cancellationToken)
+        public override async Task Handle(ShortUrlVisitedEvent notification, CancellationToken cancellationToken)
         {
             await _vistorCounterRespository.AddAsync(notification.Code, 1);
         }

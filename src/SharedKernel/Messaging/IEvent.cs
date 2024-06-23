@@ -1,11 +1,9 @@
-﻿using MediatR;
-
-namespace SharedKernel.Core
+﻿namespace SharedKernel.Messaging
 {
     /// <summary>
     /// Represents the event interface.
     /// </summary>
-    public interface IEvent : INotification
+    public interface IEvent
     {
     }
 }

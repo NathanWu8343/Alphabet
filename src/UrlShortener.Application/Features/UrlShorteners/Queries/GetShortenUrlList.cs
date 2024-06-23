@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SharedKernel.Maybe;
 using SharedKernel.Messaging;
+using SharedKernel.Messaging.Base;
 using SharedKernel.Pagination;
 using UrlShortener.Application.Abstractions;
 
@@ -12,7 +13,8 @@ namespace UrlShortener.Application.Features.UrlShorteners.Queries
 
     public sealed record ShortenUrlResponse(string Code, string ShorUrl) { }
 
-    internal sealed class GetShortenUrlListQueryHandeler : IQueryHandler<GetShortenUrlListQuery, Maybe<PagedList<ShortenUrlResponse>>>
+    internal sealed class GetShortenUrlListQueryHandeler :
+        BaseQueryHandler<GetShortenUrlListQuery, Maybe<PagedList<ShortenUrlResponse>>>
     {
         private readonly IDbContext _dbContext;
 
@@ -21,7 +23,7 @@ namespace UrlShortener.Application.Features.UrlShorteners.Queries
             _dbContext = dbContext;
         }
 
-        public async Task<Maybe<PagedList<ShortenUrlResponse>>> Handle(GetShortenUrlListQuery request, CancellationToken cancellationToken)
+        public override async Task<Maybe<PagedList<ShortenUrlResponse>>> Handle(GetShortenUrlListQuery request, CancellationToken cancellationToken)
         {
             var data = await _dbContext.ShortendUrls
                   .OrderBy(x => x.CreatedAtUtc)

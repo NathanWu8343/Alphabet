@@ -1,5 +1,6 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SharedKernel.Messaging;
+using SharedKernel.Messaging.Base;
 using SharedKernel.Results;
 using UrlShortener.Application.Abstractions;
 using UrlShortener.Application.Extensions;
@@ -33,7 +34,8 @@ namespace UrlShortener.Application.Features.UrlShorteners.Commands
     /// <summary>
     /// Represents the <see cref="CreateShortUrlCommand"/> handler.
     /// </summary>
-    internal sealed class CreateShortUrlCommandHandler : ICommandHandler<CreateShortUrlCommand, Result<string>>
+    internal sealed class CreateShortUrlCommandHandler :
+        BaseCommandHandler<CreateShortUrlCommand, Result<string>>
     {
         private readonly IShortenedUrlRepository _shortendUrlRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -48,7 +50,7 @@ namespace UrlShortener.Application.Features.UrlShorteners.Commands
             _timeProvider = timeProvider;
         }
 
-        public async Task<Result<string>> Handle(CreateShortUrlCommand request, CancellationToken cancellationToken)
+        public override async Task<Result<string>> Handle(CreateShortUrlCommand request, CancellationToken cancellationToken)
         {
             var code = _shortCodeGenerator.Generate(request.Url);
             var shortendUrl = ShortenedUrl.Create(
