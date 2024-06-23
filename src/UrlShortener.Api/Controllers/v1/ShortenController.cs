@@ -1,11 +1,9 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Models;
 using SharedKernel.Errors;
 using SharedKernel.Maybe;
 using SharedKernel.Results;
 using System.ComponentModel.DataAnnotations;
-using System.Net.NetworkInformation;
 using UrlShortener.Api.Abstractions;
 using UrlShortener.Api.Contracts;
 using UrlShortener.Application.Features.UrlShorteners.Commands;

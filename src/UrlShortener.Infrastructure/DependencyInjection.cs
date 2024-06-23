@@ -1,5 +1,6 @@
 ﻿using Elastic.Apm.SerilogEnricher;
 using Elastic.Apm.StackExchange.Redis;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,9 +10,11 @@ using Serilog;
 using Serilog.Enrichers.Span;
 using Serilog.Sinks.OpenTelemetry;
 using SharedKernel.Common;
+using SharedKernel.Messaging;
 using StackExchange.Redis;
 using UrlShortener.Application.Abstractions;
 using UrlShortener.Infrastructure.Common;
+using UrlShortener.Infrastructure.Messages;
 using UrlShortener.Infrastructure.Redis;
 
 namespace UrlShortener.Infrastructure
@@ -119,6 +122,29 @@ namespace UrlShortener.Infrastructure
 
             //services.AddAllElasticApm();
             // services.AddSerilogWithElk(configuration);
+
+            //messages
+            //services.AddMediator(cfg =>
+            //{
+            //    //cfg.AddConsumer<CreateShortUrlCommandHandler>();
+            //    //cfg.AddConsumers(UrlShortener.Application.AssemblyReference.Assembly);
+            //});
+            services.AddMassTransit(cfg =>
+            {
+                cfg.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host("localhost", "/", h =>
+                    {
+                        h.Username("root");
+                        h.Password("123123");
+                    });
+
+                    cfg.ConfigureEndpoints(context);
+                });
+
+                //cfg.AddConsumers(Assembly.GetExecutingAssembly());
+            });
+            services.AddSingleton<IDispatcher, MassTransitDispatcher>();
         }
 
         public static void UseInfrastructure(this IApplicationBuilder app)
