@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using NetArchTest.Rules;
+using SharedKernel.Messaging.Base;
 
 namespace ArchitectureTests
 {
@@ -17,9 +18,49 @@ namespace ArchitectureTests
             var testResult = Types
                 .InAssembly(assembly)
                 .That()
-                .HaveNameStartingWith("Handler")
+                .HaveNameEndingWith("Handler")
                 .Should()
                 .HaveDependencyOn(DomainNameSpace)
+                .GetResult();
+
+            // Assert
+            testResult.IsSuccessful.Should().BeTrue();
+        }
+
+        [Fact]
+        public void BaseCommandHandler_Should_Have_NameEndingWithCommandHandler()
+        {
+            // Arrange
+            var assembly = UrlShortener.Application.AssemblyReference.Assembly;
+
+            // Act
+            var testResult = Types
+                .InAssembly(assembly)
+                .That()
+                .Inherit(typeof(BaseCommandHandler<,>))
+                .Should()
+                .HaveNameEndingWith("CommandHandler")
+                .GetResult();
+
+            // Assert
+            testResult.IsSuccessful.Should().BeTrue();
+        }
+
+        [Fact]
+        public void CommandHandlers_Should_NotBePublicAndBeSealed()
+        {
+            // Arrange
+            var assembly = UrlShortener.Application.AssemblyReference.Assembly;
+
+            // Act
+            var testResult = Types
+                .InAssembly(assembly)
+                .That()
+                .HaveNameEndingWith("CommandHandler")
+                .Should()
+                .NotBePublic()
+                .And()
+                .BeSealed()
                 .GetResult();
 
             // Assert
