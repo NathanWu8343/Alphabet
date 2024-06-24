@@ -20,7 +20,7 @@ namespace UrlShortener.Application.Features.UrlShorteners.Commands
     /// <summary>
     /// Represents the <see cref="CreateShortUrlCommand"/> validator.
     /// </summary>
-    public sealed class CreateShortUrlCommandValidator : AbstractValidator<CreateShortUrlCommand>
+    internal sealed class CreateShortUrlCommandValidator : AbstractValidator<CreateShortUrlCommand>
     {
         public CreateShortUrlCommandValidator()
         {
@@ -33,7 +33,7 @@ namespace UrlShortener.Application.Features.UrlShorteners.Commands
     /// <summary>
     /// Represents the <see cref="CreateShortUrlCommand"/> handler.
     /// </summary>
-    public sealed class CreateShortUrlCommandHandler : ICommandHandler<CreateShortUrlCommand, Result<string>>
+    internal sealed class CreateShortUrlCommandHandler : ICommandHandler<CreateShortUrlCommand, Result<string>>
     {
         private readonly IShortenedUrlRepository _shortendUrlRepository;
         private readonly IUnitOfWork _unitOfWork;

@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using NetArchTest.Rules;
-using SharedKernel.Messaging.Base;
+using SharedKernel.Messaging;
 
 namespace ArchitectureTests
 {
@@ -28,7 +28,7 @@ namespace ArchitectureTests
         }
 
         [Fact]
-        public void BaseCommandHandler_Should_Have_NameEndingWithCommandHandler()
+        public void CommandHandler_Should_Have_NameEndingWithCommandHandler()
         {
             // Arrange
             var assembly = UrlShortener.Application.AssemblyReference.Assembly;
@@ -37,7 +37,7 @@ namespace ArchitectureTests
             var testResult = Types
                 .InAssembly(assembly)
                 .That()
-                .Inherit(typeof(BaseCommandHandler<,>))
+                .ImplementInterface(typeof(ICommandHandler<,>))
                 .Should()
                 .HaveNameEndingWith("CommandHandler")
                 .GetResult();

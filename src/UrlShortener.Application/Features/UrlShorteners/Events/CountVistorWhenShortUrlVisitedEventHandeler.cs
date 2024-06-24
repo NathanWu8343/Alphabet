@@ -3,7 +3,7 @@ using UrlShortener.Domain.Repositories;
 
 namespace UrlShortener.Application.Features.UrlShorteners.Events
 {
-    internal class CountVistorWhenShortUrlVisitedEventHandeler : IEventHandler<ShortUrlVisitedEvent>
+    internal sealed class CountVistorWhenShortUrlVisitedEventHandeler : IEventHandler<ShortUrlVisitedEvent>
     {
         private readonly IVistorCounterRespository _vistorCounterRespository;
 
