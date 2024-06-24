@@ -1,5 +1,11 @@
-﻿using System.Text.Json;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using SharedKernel.Core;
+using SharedKernel.Errors;
+using System.Net;
+using System.Text.Json;
 using UrlShortener.Api.Abstractions;
+using UrlShortener.Domain;
 
 namespace UrlShortener.Api.Middlewares
 {
@@ -49,7 +55,7 @@ namespace UrlShortener.Api.Middlewares
         /// <returns>The HTTP response that is modified based on the exception.</returns>
         private static async Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
         {
-            //(HttpStatusCode httpStatusCode, IReadOnlyCollection<Error> errors) = GetHttpStatusCodeAndErrors(exception);
+            (HttpStatusCode httpStatusCode, IReadOnlyCollection<Error> errors) = GetHttpStatusCodeAndErrors(exception);
 
             httpContext.Response.ContentType = "application/json";
 
@@ -63,7 +69,7 @@ namespace UrlShortener.Api.Middlewares
             //string response = JsonSerializer.Serialize(new ApiErrorResponse(errors), serializerOptions);
             string response = JsonSerializer.Serialize(new ApiResponse()
             {
-                Status = 500,
+                Status = (int)httpStatusCode,
                 Title = "Server failure",
                 Detail = exception.Message,
             }, serializerOptions);
@@ -71,12 +77,15 @@ namespace UrlShortener.Api.Middlewares
             await httpContext.Response.WriteAsync(response);
         }
 
-        //private static (HttpStatusCode httpStatusCode, IReadOnlyCollection<Error>) GetHttpStatusCodeAndErrors(Exception exception) =>
-        //    exception switch
-        //    {
-        //        ValidationException validationException => (HttpStatusCode.BadRequest, validationException.Errors),
-        //        DomainException domainException => (HttpStatusCode.BadRequest, new[] { domainException.Error }),
-        //        _ => (HttpStatusCode.InternalServerError, new[] { DomainErrors.General.ServerError })
-        //    };
+        private static (HttpStatusCode httpStatusCode, IReadOnlyCollection<Error>) GetHttpStatusCodeAndErrors(Exception exception) =>
+            exception switch
+            {
+                ValidationException validationException => (HttpStatusCode.BadRequest, CreateValidationError(validationException.Errors.ToArray()).Errors),
+                DomainException domainException => (HttpStatusCode.BadRequest, new[] { domainException.Error }),
+                _ => (HttpStatusCode.InternalServerError, new[] { Error.None })
+            };
+
+        private static ValidationError CreateValidationError(ValidationFailure[] validationFailures) =>
+            new(validationFailures.Select(f => Error.Problem(f.ErrorCode, f.ErrorMessage)).ToArray());
     }
 }

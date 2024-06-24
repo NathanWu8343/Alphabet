@@ -18,10 +18,11 @@ namespace UrlShortener.Infrastructure.Messages
             return _mediator.Publish(notification, cancellationToken);
         }
 
-        public Task<TResponse> Send<TResponse>(ICommand<TResponse> request, CancellationToken cancellationToken = default)
+        public async Task<TResponse> Send<TResponse>(ICommand<TResponse> request, CancellationToken cancellationToken = default)
             where TResponse : class
         {
-            return _mediator.SendRequest(request, cancellationToken);
+            var response = await _mediator.SendRequest(request, cancellationToken);
+            return response;
         }
 
         public Task<TResponse> Send<TResponse>(IQuery<TResponse> request, CancellationToken cancellationToken = default)
