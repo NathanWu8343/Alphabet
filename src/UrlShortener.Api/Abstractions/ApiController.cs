@@ -14,6 +14,8 @@ namespace UrlShortener.Api.Abstractions
 
         protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetRequiredService<IMediator>();
 
+        protected CancellationToken CancellationToken => HttpContext.RequestAborted;
+
         protected new IActionResult Ok()
         {
             return new ObjectResult(ApiResponse.Success());
