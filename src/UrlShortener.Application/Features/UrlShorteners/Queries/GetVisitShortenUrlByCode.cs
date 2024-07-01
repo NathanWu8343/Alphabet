@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SharedKernel.Maybe;
 using SharedKernel.Messaging;
 using SharedKernel.Messaging.Base;
@@ -17,7 +18,8 @@ namespace UrlShortener.Application.Features.UrlShorteners.Queries
         private readonly IDbContext _dbContext;
         private readonly IDispatcher _mediator;
 
-        public GetVisitShortenUrlByCodeQueryHandler(IDispatcher mediator, IDbContext dbContext)
+        public GetVisitShortenUrlByCodeQueryHandler(ILogger<GetVisitShortenUrlByCodeQueryHandler> logger, IDispatcher mediator, IDbContext dbContext)
+            : base(logger)
         {
             _mediator = mediator;
             _dbContext = dbContext;

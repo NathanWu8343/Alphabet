@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SharedKernel.Maybe;
 using SharedKernel.Messaging;
 using SharedKernel.Messaging.Base;
@@ -18,7 +19,8 @@ namespace UrlShortener.Application.Features.UrlShorteners.Queries
     {
         private readonly IDbContext _dbContext;
 
-        public GetShortenUrlListQueryHandeler(IDbContext dbContext)
+        public GetShortenUrlListQueryHandeler(ILogger<GetShortenUrlListQueryHandeler> logger, IDbContext dbContext)
+            : base(logger)
         {
             _dbContext = dbContext;
         }

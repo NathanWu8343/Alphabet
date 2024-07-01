@@ -1,4 +1,6 @@
-﻿using FluentAssertions;
+﻿using Castle.Core.Logging;
+using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Time.Testing;
 using NSubstitute;
 using UrlShortener.Application.Abstractions;
@@ -18,6 +20,7 @@ namespace UrlShortener.Application.UnitTests.UrlShorteners.Commands
         private readonly IUnitOfWork _stubUnitOfWork;
         private readonly IShortCodeGenerator _stubShortCodeGenerator;
         private readonly TimeProvider _stubTimeProvider;
+        private readonly ILogger<CreateShortUrlCommandHandler> _logger;
 
         public CreateShortUrlCommandHandlerTests()
         {
@@ -25,6 +28,7 @@ namespace UrlShortener.Application.UnitTests.UrlShorteners.Commands
             _stubUnitOfWork = Substitute.For<IUnitOfWork>();
             _stubShortCodeGenerator = Substitute.For<IShortCodeGenerator>();
             _stubTimeProvider = new FakeTimeProvider();
+            _logger = Substitute.For<ILogger<CreateShortUrlCommandHandler>>();
         }
 
         [Theory]
@@ -36,6 +40,7 @@ namespace UrlShortener.Application.UnitTests.UrlShorteners.Commands
             var command = Command with { Url = url };
 
             var handle = new CreateShortUrlCommandHandler(
+                _logger,
                 _mockShortenedUrlRepository,
                 _stubUnitOfWork,
                 _stubShortCodeGenerator,
@@ -54,6 +59,7 @@ namespace UrlShortener.Application.UnitTests.UrlShorteners.Commands
             _stubShortCodeGenerator.Generate(Arg.Any<string>()).Returns(string.Empty);
 
             var handle = new CreateShortUrlCommandHandler(
+                _logger,
                 _mockShortenedUrlRepository,
                 _stubUnitOfWork,
                 _stubShortCodeGenerator,
@@ -71,6 +77,7 @@ namespace UrlShortener.Application.UnitTests.UrlShorteners.Commands
             _stubShortCodeGenerator.Generate(Arg.Any<string>()).Returns("xxx");
 
             var handle = new CreateShortUrlCommandHandler(
+                _logger,
                 _mockShortenedUrlRepository,
                 _stubUnitOfWork,
                 _stubShortCodeGenerator,
@@ -92,6 +99,7 @@ namespace UrlShortener.Application.UnitTests.UrlShorteners.Commands
             _stubShortCodeGenerator.Generate(Arg.Any<string>()).Returns("xxx");
 
             var handle = new CreateShortUrlCommandHandler(
+                _logger,
                 _mockShortenedUrlRepository,
                 _stubUnitOfWork,
                 _stubShortCodeGenerator,

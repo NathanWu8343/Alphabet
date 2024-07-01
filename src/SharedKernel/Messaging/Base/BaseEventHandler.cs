@@ -1,5 +1,5 @@
 ﻿using MassTransit;
-using SharedKernel.Messaging;
+using Microsoft.Extensions.Logging;
 
 namespace SharedKernel.Messaging.Base
 {
@@ -8,9 +8,34 @@ namespace SharedKernel.Messaging.Base
         IConsumer<TRequest>
      where TRequest : class, IEvent
     {
+        protected readonly ILogger Logger;
+
+        protected BaseEventHandler(ILogger logger)
+        {
+            Logger = logger;
+        }
+
         public Task Consume(ConsumeContext<TRequest> context)
         {
-            return Handle(context.Message, context.CancellationToken);
+            //LOG
+            var requestName = typeof(TRequest).Name;
+
+            try
+            {
+                Logger.LogInformation("Request received: {RequestName} : {Request}"
+                      , requestName
+                      , context.Message);
+
+                return Handle(context.Message, context.CancellationToken);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "equest: {RequestName} failed with error: {Error}"
+                         , requestName
+                         , ex.Message);
+
+                return Task.CompletedTask;
+            }
         }
 
         public abstract Task Handle(TRequest request, CancellationToken cancellationToken);

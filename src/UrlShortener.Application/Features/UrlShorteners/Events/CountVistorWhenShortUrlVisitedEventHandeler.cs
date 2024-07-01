@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using SharedKernel.Messaging.Base;
 using UrlShortener.Domain.Repositories;
 
@@ -8,7 +9,8 @@ namespace UrlShortener.Application.Features.UrlShorteners.Events
     {
         private readonly IVistorCounterRespository _vistorCounterRespository;
 
-        public CountVistorWhenShortUrlVisitedEventHandeler(IVistorCounterRespository vistorCounterRespository)
+        public CountVistorWhenShortUrlVisitedEventHandeler(ILogger<CountVistorWhenShortUrlVisitedEventHandeler> logger, IVistorCounterRespository vistorCounterRespository)
+            : base(logger)
         {
             _vistorCounterRespository = vistorCounterRespository;
         }

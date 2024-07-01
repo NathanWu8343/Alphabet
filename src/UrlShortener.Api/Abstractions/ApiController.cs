@@ -10,9 +10,9 @@ namespace UrlShortener.Api.Abstractions
     [ApiController]
     public abstract class ApiController : ControllerBase
     {
-        private IDispatcher? _mediator;
+        private IDispatcher? _dispatcher;
 
-        protected IDispatcher Mediator => _mediator ??= HttpContext.RequestServices.GetRequiredService<IDispatcher>();
+        protected IDispatcher Dispatcher => _dispatcher ??= HttpContext.RequestServices.GetRequiredService<IDispatcher>();
 
         protected CancellationToken CancellationToken => HttpContext.RequestAborted;
 

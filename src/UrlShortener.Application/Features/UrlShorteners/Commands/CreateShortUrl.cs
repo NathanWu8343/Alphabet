@@ -1,4 +1,5 @@
 using FluentValidation;
+using Microsoft.Extensions.Logging;
 using SharedKernel.Messaging;
 using SharedKernel.Messaging.Base;
 using SharedKernel.Results;
@@ -42,7 +43,8 @@ namespace UrlShortener.Application.Features.UrlShorteners.Commands
         private readonly IShortCodeGenerator _shortCodeGenerator;
         private readonly TimeProvider _timeProvider;
 
-        public CreateShortUrlCommandHandler(IShortenedUrlRepository shortendUrlRepository, IUnitOfWork unitOfWork, IShortCodeGenerator shortCodeGenerator, TimeProvider timeProvider)
+        public CreateShortUrlCommandHandler(ILogger<CreateShortUrlCommandHandler> logger, IShortenedUrlRepository shortendUrlRepository, IUnitOfWork unitOfWork, IShortCodeGenerator shortCodeGenerator, TimeProvider timeProvider)
+            : base(logger)
         {
             _shortendUrlRepository = shortendUrlRepository;
             _unitOfWork = unitOfWork;

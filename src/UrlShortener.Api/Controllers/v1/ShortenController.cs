@@ -48,7 +48,7 @@ namespace UrlShortener.Api.Controllers.v1
 
             return await Result.Create(request, new Error("test", "demo", ErrorType.Validation))
                 .Map(req => new CreateShortUrlCommand(req.Url, path))
-                .Bind(cmd => Mediator.Send(cmd, CancellationToken))
+                .Bind(cmd => Dispatcher.Send(cmd, CancellationToken))
                 .Match(Ok, Failure);
         }
 
@@ -63,7 +63,7 @@ namespace UrlShortener.Api.Controllers.v1
         {
             var result = await Maybe<GetVisitShortenUrlByCodeQuery>
                 .From(new GetVisitShortenUrlByCodeQuery(code))
-                .Bind(query => Mediator.Send(query, CancellationToken));
+                .Bind(query => Dispatcher.Send(query, CancellationToken));
 
             return result.HasValue ? Redirect(result.Value) : NotFound();
         }
@@ -79,7 +79,7 @@ namespace UrlShortener.Api.Controllers.v1
         {
             return await Maybe<GtUrlVistorCountQueryByCode>
                     .From(new GtUrlVistorCountQueryByCode(code))
-                    .Bind(query => Mediator.Send(query, CancellationToken))
+                    .Bind(query => Dispatcher.Send(query, CancellationToken))
                     .Match(Ok, NotFound);
         }
 
@@ -95,7 +95,7 @@ namespace UrlShortener.Api.Controllers.v1
         {
             return await Maybe<GetShortenUrlListQuery>
                     .From(new GetShortenUrlListQuery(page, pageSize))
-                    .Bind(query => Mediator.Send(query, CancellationToken))
+                    .Bind(query => Dispatcher.Send(query, CancellationToken))
                     .Match(Ok, NotFound);
         }
     }

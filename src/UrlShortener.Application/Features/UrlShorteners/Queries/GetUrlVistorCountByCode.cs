@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SharedKernel.Maybe;
 using SharedKernel.Messaging;
 using SharedKernel.Messaging.Base;
@@ -17,7 +18,8 @@ namespace UrlShortener.Application.Features.UrlShorteners.Queries
         private readonly IDbContext _dbContext;
         private readonly IVistorCounterRespository _vistorCounterRespository;
 
-        public GetUrlVistorCountByCodeQueryHandler(IVistorCounterRespository vistorCounterRespository, IDbContext dbContext)
+        public GetUrlVistorCountByCodeQueryHandler(ILogger<GetUrlVistorCountByCodeQueryHandler> logger, IVistorCounterRespository vistorCounterRespository, IDbContext dbContext)
+            : base(logger)
         {
             _vistorCounterRespository = vistorCounterRespository;
             _dbContext = dbContext;
