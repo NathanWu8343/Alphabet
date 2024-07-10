@@ -77,8 +77,8 @@ namespace UrlShortener.Api.Controllers.v1
         [Route("visit/{code}/count")]
         public async Task<IActionResult> GetVisitCount([Required] string code)
         {
-            return await Maybe<GtUrlVistorCountQueryByCode>
-                    .From(new GtUrlVistorCountQueryByCode(code))
+            return await Maybe<GtUrlVistorCountByCodeQuery>
+                    .From(new GtUrlVistorCountByCodeQuery(code))
                     .Bind(query => Dispatcher.Send(query, CancellationToken))
                     .Match(Ok, NotFound);
         }

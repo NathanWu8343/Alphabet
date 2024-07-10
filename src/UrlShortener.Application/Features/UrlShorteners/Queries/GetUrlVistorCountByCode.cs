@@ -8,12 +8,12 @@ using UrlShortener.Domain.Repositories;
 
 namespace UrlShortener.Application.Features.UrlShorteners.Queries
 {
-    public sealed record GtUrlVistorCountQueryByCode(string Code) : IQuery<Maybe<double>>
+    public sealed record GtUrlVistorCountByCodeQuery(string Code) : IQuery<Maybe<double>>
     {
     }
 
     internal sealed class GetUrlVistorCountByCodeQueryHandler :
-        BaseQueryHandler<GtUrlVistorCountQueryByCode, Maybe<double>>
+        BaseQueryHandler<GtUrlVistorCountByCodeQuery, Maybe<double>>
     {
         private readonly IDbContext _dbContext;
         private readonly IVistorCounterRespository _vistorCounterRespository;
@@ -25,7 +25,7 @@ namespace UrlShortener.Application.Features.UrlShorteners.Queries
             _dbContext = dbContext;
         }
 
-        public override async Task<Maybe<double>> Handle(GtUrlVistorCountQueryByCode request, CancellationToken cancellationToken)
+        public override async Task<Maybe<double>> Handle(GtUrlVistorCountByCodeQuery request, CancellationToken cancellationToken)
         {
             var bol = await _dbContext.ShortendUrls.AnyAsync(x => x.Code == request.Code, cancellationToken);
             if (!bol) return Maybe<double>.None;
