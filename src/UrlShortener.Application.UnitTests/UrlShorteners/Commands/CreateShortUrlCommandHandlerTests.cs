@@ -1,6 +1,7 @@
 ﻿using Castle.Core.Logging;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Time.Testing;
 using NSubstitute;
 using UrlShortener.Application.Abstractions;
@@ -28,7 +29,7 @@ namespace UrlShortener.Application.UnitTests.UrlShorteners.Commands
             _stubUnitOfWork = Substitute.For<IUnitOfWork>();
             _stubShortCodeGenerator = Substitute.For<IShortCodeGenerator>();
             _stubTimeProvider = new FakeTimeProvider();
-            _logger = Substitute.For<ILogger<CreateShortUrlCommandHandler>>();
+            _logger = NullLogger<CreateShortUrlCommandHandler>.Instance;
         }
 
         [Theory]
