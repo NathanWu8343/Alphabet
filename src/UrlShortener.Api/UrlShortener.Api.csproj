@@ -24,7 +24,4 @@
     <ProjectReference Include="..\UrlShortener.Infrastructure\UrlShortener.Infrastructure.csproj" />
     <ProjectReference Include="..\UrlShortener.Persistence\UrlShortener.Persistence.csproj" />
   </ItemGroup>
-
-  <ProjectExtensions><VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="https://json.schemastore.org/azure-deviceupdate-import-manifest-5.0.json" /></VisualStudio></ProjectExtensions>
-
 </Project>

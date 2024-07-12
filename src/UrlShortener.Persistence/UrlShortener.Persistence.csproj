@@ -25,4 +25,8 @@
     <Folder Include="Repositories\Redis\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="UrlShortener.IntegrationTests" />
+  </ItemGroup>
+
 </Project>

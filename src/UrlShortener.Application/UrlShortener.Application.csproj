@@ -17,4 +17,8 @@
     <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
     <ProjectReference Include="..\UrlShortener.Domain\UrlShortener.Domain.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="UrlShortener.Application.UnitTests" />
+  </ItemGroup>
 </Project>

@@ -32,4 +32,8 @@
     <ProjectReference Include="..\UrlShortener.Persistence\UrlShortener.Persistence.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="UrlShortener.IntegrationTests" />
+  </ItemGroup>
 </Project>
