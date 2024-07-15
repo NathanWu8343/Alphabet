@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 using UrlShortener.Persistence;
 
 namespace UrlShortener.Api.Extensions
@@ -12,6 +14,11 @@ namespace UrlShortener.Api.Extensions
             using ApplicationDbContext dbContext =
                 scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
+            // crate
+            var dbCreator = dbContext.GetService<IRelationalDatabaseCreator>();
+            if (!dbCreator.Exists()) dbCreator.Create();
+
+            // migrate
             dbContext.Database.Migrate();
         }
     }
