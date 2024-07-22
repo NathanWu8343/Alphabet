@@ -1,8 +1,0 @@
-version: '3.4'
-
-services:
-  urlshortener.api:
-    image: ${DOCKER_REGISTRY-}urlshortenerapi
-    build:
-      context: .
-      dockerfile: src/UrlShortener.Api/Dockerfile
