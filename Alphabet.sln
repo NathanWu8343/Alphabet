@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0- Solution Items", "0- Solution Items", "{9D5FF220-CFB5-454B-A97F-8616AC83D2EF}"
 	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		.gitignore = .gitignore
 		Directory.Build.props = Directory.Build.props
 		README.md = README.md
 	EndProjectSection
@@ -35,8 +37,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UrlShortener.Persistence", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "99- Tests", "99- Tests", "{E4F28509-A2AD-451B-9FDE-AE351BBD080A}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{84ED1F68-89F8-4734-99C7-B51584082297}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alphabet.AppHost", "src\Alphabet.AppHost\Alphabet.AppHost.csproj", "{42589459-16F9-43FA-8B35-D5B4E97C9605}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alphabet.ServiceDefaults", "src\Alphabet.ServiceDefaults\Alphabet.ServiceDefaults.csproj", "{131B0FB3-1964-4A0A-8D44-E48C6444E95B}"
@@ -48,6 +48,11 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UrlShortener.IntegrationTests", "tests\UrlShortener.IntegrationTests\UrlShortener.IntegrationTests.csproj", "{AB19610E-1C29-4178-8287-3595C96EA4DC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1- Common", "1- Common", "{C7778C5A-000D-43FD-98B3-6D70954A3E38}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k6", "k6", "{59913055-A65E-430A-8CFE-8B946DC7F99D}"
+	ProjectSection(SolutionItems) = preProject
+		tests\k6\api-test-v1-create.js = tests\k6\api-test-v1-create.js
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,10 +96,6 @@ Global
 		{3796F532-B53E-44C1-BB93-2D23543FE04B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3796F532-B53E-44C1-BB93-2D23543FE04B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3796F532-B53E-44C1-BB93-2D23543FE04B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{84ED1F68-89F8-4734-99C7-B51584082297}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{84ED1F68-89F8-4734-99C7-B51584082297}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{84ED1F68-89F8-4734-99C7-B51584082297}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{84ED1F68-89F8-4734-99C7-B51584082297}.Release|Any CPU.Build.0 = Release|Any CPU
 		{42589459-16F9-43FA-8B35-D5B4E97C9605}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{42589459-16F9-43FA-8B35-D5B4E97C9605}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42589459-16F9-43FA-8B35-D5B4E97C9605}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -129,12 +130,12 @@ Global
 		{EBD02C42-C7AC-4D0F-A513-C41E54333CCC} = {7EBD9A16-6471-4DDD-8CC0-E594EE42345B}
 		{4FAEE59D-767A-45E5-89AD-9B0F69C0DB61} = {3F17820F-8BB5-4887-80EA-320E5228FEE9}
 		{3796F532-B53E-44C1-BB93-2D23543FE04B} = {7EBD9A16-6471-4DDD-8CC0-E594EE42345B}
-		{84ED1F68-89F8-4734-99C7-B51584082297} = {9D5FF220-CFB5-454B-A97F-8616AC83D2EF}
 		{42589459-16F9-43FA-8B35-D5B4E97C9605} = {C7778C5A-000D-43FD-98B3-6D70954A3E38}
 		{131B0FB3-1964-4A0A-8D44-E48C6444E95B} = {6EFB176B-55AB-483F-8008-1A342074E208}
 		{B8062534-483B-4110-B304-7891874384E4} = {E4F28509-A2AD-451B-9FDE-AE351BBD080A}
 		{0119D69A-DEA5-4A0D-95F2-F8B8707C7620} = {E4F28509-A2AD-451B-9FDE-AE351BBD080A}
 		{AB19610E-1C29-4178-8287-3595C96EA4DC} = {E4F28509-A2AD-451B-9FDE-AE351BBD080A}
+		{59913055-A65E-430A-8CFE-8B946DC7F99D} = {E4F28509-A2AD-451B-9FDE-AE351BBD080A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {99279902-5800-4AC0-A9B9-312B5A743896}
