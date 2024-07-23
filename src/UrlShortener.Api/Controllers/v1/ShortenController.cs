@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using SharedKernel.Errors;
 using SharedKernel.Maybe;
 using SharedKernel.Results;
@@ -42,6 +43,10 @@ namespace UrlShortener.Api.Controllers.v1
         [Route("create")]
         public async Task<IActionResult> Create([FromHeader(Name = "x-proxy-api")] string? proxyPath, CreateShortenUrlRequest request)
         {
+            _logger.LogInformation("hello1");
+
+            Log.Information("hello2");
+
             var path = string.IsNullOrEmpty(proxyPath)
                 ? $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/api"
                 : $"{HttpContext.Request.Headers["Origin"]}/{proxyPath}";

@@ -12,6 +12,7 @@
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" Version="8.0.0" />
     <PackageReference Include="Aspire.Hosting.Redis" Version="8.0.1" />
+    <PackageReference Include="Aspire.Hosting.Seq" Version="8.0.2" />
     <PackageReference Include="CliWrap" Version="3.6.6" />
   </ItemGroup>
 

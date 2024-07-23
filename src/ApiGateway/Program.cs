@@ -2,12 +2,10 @@ using ApiGateway.Configs;
 using ApiGateway.Extensions;
 using ApiGateway.Swagger;
 using ApiGateway.Swagger.Extensions;
-using Microsoft.AspNetCore.Authentication.BearerToken;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using UrlShortener.Infrastructure;
 
 namespace ApiGateway
 {
@@ -18,7 +16,7 @@ namespace ApiGateway
             var builder = WebApplication.CreateBuilder(args);
             builder.AddServiceDefaults();
 
-            builder.ConfigureSerilog();
+            //builder.ConfigureSerilog();
             // Add services to the container.
             //builder.Services.AddControllers();
 

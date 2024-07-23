@@ -1,5 +1,4 @@
 using IdentityServer.Configs;
-using UrlShortener.Infrastructure;
 
 namespace IdentityServer
 {
@@ -10,7 +9,7 @@ namespace IdentityServer
             var builder = WebApplication.CreateBuilder(args);
             builder.AddServiceDefaults();
 
-            builder.ConfigureSerilog();
+            //builder.ConfigureSerilog();
 
             // Add services to the container.
 

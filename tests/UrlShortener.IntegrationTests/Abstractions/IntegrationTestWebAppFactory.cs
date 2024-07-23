@@ -49,7 +49,7 @@ namespace UrlShortener.IntegrationTests.Abstractions
                     new RedisConnectionFactory(_redisContainer.GetConnectionString()));
             });
 
-            builder.UseEnvironment("Test");
+            //builder.UseEnvironment("Test");
         }
 
         public Task InitializeAsync()

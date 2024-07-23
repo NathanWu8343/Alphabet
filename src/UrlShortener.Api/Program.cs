@@ -19,7 +19,7 @@ namespace UrlShortener.Api
             // Add service defaults & Aspire components.
             builder.AddServiceDefaults();
 
-            builder.ConfigureSerilog();
+            //builder.ConfigureSerilog();
 
             builder.Services
                 .AddApplication()
@@ -72,7 +72,7 @@ namespace UrlShortener.Api
             if (app.Environment.IsDevelopment())
             {
                 app.UseOpenApi();
-                app.ApplyMigrations();
+                //  app.ApplyMigrations();
             }
 
             app.UseMiddleware<ExceptionHandlerMiddleware>();
@@ -81,9 +81,7 @@ namespace UrlShortener.Api
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSerilogRequestLogging();
-
             app.MapControllers();
-
             app.Run();
         }
     }
