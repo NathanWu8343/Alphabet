@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Aspire.Seq;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -18,6 +19,7 @@ namespace Alphabet.ServiceDefaults.Extensions
         /// </remarks>
         public static IHostApplicationBuilder ConfigureSerilog(this IHostApplicationBuilder builder)
         {
+            var env = builder.Environment.EnvironmentName;
             var sqlExporter = builder.Configuration.GetConnectionString("seqlog");
             var otlpExporter = builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"];
             var serviceName = builder.Configuration["OTEL_SERVICE_NAME"] ?? "Unknown";
@@ -37,10 +39,10 @@ namespace Alphabet.ServiceDefaults.Extensions
                     .WriteTo.Console();
 
                 if (!string.IsNullOrEmpty(sqlExporter))
-                    loggerConfiguration.WriteTo.OpenTelemetryWithSeq(sqlExporter, serviceName);
+                    loggerConfiguration.WriteTo.OpenTelemetryWithSeq(sqlExporter, serviceName, env, builder.Configuration);
 
                 if (!string.IsNullOrEmpty(otlpExporter))
-                    loggerConfiguration.WriteTo.OpenTelemetryWithAspire(otlpExporter, serviceName, builder.Configuration);
+                    loggerConfiguration.WriteTo.OpenTelemetryWithAspire(otlpExporter, serviceName, env, builder.Configuration);
             });
 
             // Removes the built-in logging providers
@@ -52,8 +54,12 @@ namespace Alphabet.ServiceDefaults.Extensions
 
     internal static class OpenTelemetryExtensions
     {
-        public static LoggerConfiguration OpenTelemetryWithSeq(this LoggerSinkConfiguration sinkConfiguration, string endpoint, string serviceName)
+        public static LoggerConfiguration OpenTelemetryWithSeq(this LoggerSinkConfiguration sinkConfiguration,
+            string endpoint, string serviceName, string environment, IConfiguration configuration)
         {
+            var settings = new SeqSettings();
+            configuration.GetSection("Aspire:Seq").Bind(settings);
+
             return sinkConfiguration.OpenTelemetry(options =>
             {
                 options.IncludedData = IncludedData.TraceIdField | IncludedData.SpanIdField;
@@ -61,19 +67,23 @@ namespace Alphabet.ServiceDefaults.Extensions
                 options.Endpoint = $"{endpoint}/ingest/otlp/v1/logs";
                 options.Protocol = OtlpProtocol.HttpProtobuf;
 
-                options.ResourceAttributes["service.name"] = serviceName;
-                options.ResourceAttributes["deployment.environment"] = "development";
+                if (string.IsNullOrEmpty(settings.ApiKey) == false)
+                    options.Headers.Add("X-Seq-ApiKey", settings.ApiKey!);
+
+                options.ResourceAttributes.Add("service.name", serviceName);
+                options.ResourceAttributes.Add("environment.name", environment);
             });
         }
 
-        public static LoggerConfiguration OpenTelemetryWithAspire(this LoggerSinkConfiguration sinkConfiguration
-            , string endpoint, string serviceName, IConfiguration configuration)
+        public static LoggerConfiguration OpenTelemetryWithAspire(this LoggerSinkConfiguration sinkConfiguration,
+            string endpoint, string serviceName, string environment, IConfiguration configuration)
         {
             return sinkConfiguration.OpenTelemetry(options =>
             {
                 options.IncludedData = IncludedData.TraceIdField | IncludedData.SpanIdField;
                 options.Endpoint = endpoint;
                 options.ResourceAttributes.Add("service.name", serviceName);
+                options.ResourceAttributes.Add("environment.name", environment);
 
                 AddHeaders(options.Headers, configuration["OTEL_EXPORTER_OTLP_HEADERS"]!);
                 AddResourceAttributes(options.ResourceAttributes, configuration["OTEL_RESOURCE_ATTRIBUTES"]!);
