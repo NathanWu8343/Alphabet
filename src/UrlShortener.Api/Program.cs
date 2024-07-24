@@ -1,8 +1,8 @@
+using Alphabet.ServiceDefaults.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Serilog;
 using UrlShortener.Api.Extensions;
 using UrlShortener.Api.Filters;
-using UrlShortener.Api.Infrastructure.OpenApi;
 using UrlShortener.Api.Middlewares;
 using UrlShortener.Application;
 using UrlShortener.Infrastructure;
@@ -34,7 +34,8 @@ namespace UrlShortener.Api
 
             builder.Services.AddVersion();
 
-            builder.Services.AddOpenApi();
+            //NOTE: 需要搭配 builder.Services.AddVersion()
+            builder.Services.AddDefaultOpenApi();
 
             builder.Services.AddSingleton<TimeProvider>(TimeProvider.System);
 
@@ -71,7 +72,7 @@ namespace UrlShortener.Api
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.UseOpenApi();
+                app.UseDefaultOpenApi();
                 //  app.ApplyMigrations();
             }
 

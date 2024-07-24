@@ -5,8 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
-using OpenTelemetry;
-using OpenTelemetry.Exporter;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -18,7 +16,13 @@ namespace Microsoft.Extensions.Hosting;
 // This project should be referenced by each service project in your solution.
 public static class DependencyInjection
 {
-    public static IHostApplicationBuilder AddServiceDefaults(this IHostApplicationBuilder builder)
+    /// <summary>
+    /// Adds the services except for making outgoing HTTP calls.
+    /// </summary>
+    /// <remarks>
+    /// This allows for things like Polly to be trimmed out of the app if it isn't used.
+    /// </remarks>
+    public static IHostApplicationBuilder AddBasicServiceDefaults(this IHostApplicationBuilder builder)
     {
         //TODO:待判斷
         builder.AddSeqEndpoint("seqlog");
@@ -28,6 +32,13 @@ public static class DependencyInjection
         builder.ConfigureOpenTelemetry();
 
         builder.AddDefaultHealthChecks();
+
+        return builder;
+    }
+
+    public static IHostApplicationBuilder AddServiceDefaults(this IHostApplicationBuilder builder)
+    {
+        builder.AddBasicServiceDefaults();
 
         builder.Services.AddServiceDiscovery();
 
@@ -59,6 +70,7 @@ public static class DependencyInjection
                 ["team.name"] = "backend"
             });
 
+        //NOTE: LOG要各別設定
         //builder.Logging.AddOpenTelemetry(logging =>
         //{
         //    var resourceBuilder = ResourceBuilder.CreateDefault();
