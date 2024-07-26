@@ -1,3 +1,4 @@
+using Alphabet.ServiceDefaults;
 using Alphabet.ServiceDefaults.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Serilog;

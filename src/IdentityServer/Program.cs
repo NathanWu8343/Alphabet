@@ -1,3 +1,4 @@
+using Alphabet.ServiceDefaults;
 using IdentityServer.Configs;
 
 namespace IdentityServer

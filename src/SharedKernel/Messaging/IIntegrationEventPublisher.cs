@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Core
+﻿namespace SharedKernel.Messaging
 {
     /// <summary>
     /// Represents the integration event publisher interface.

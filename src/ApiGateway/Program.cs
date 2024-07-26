@@ -1,3 +1,4 @@
+using Alphabet.ServiceDefaults;
 using ApiGateway.Configs;
 using ApiGateway.Extensions;
 using ApiGateway.Swagger;
