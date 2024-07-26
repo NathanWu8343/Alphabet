@@ -7,17 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Elastic.Apm.NetCoreAll" Version="1.27.1" />
-    <PackageReference Include="Elastic.Apm.SerilogEnricher" Version="8.11.0" />
     <PackageReference Include="Elastic.Apm.StackExchange.Redis" Version="1.27.1" />
-    <PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.11.0" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
 
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\UrlShortener.Application\UrlShortener.Application.csproj" />
-    <ProjectReference Include="..\UrlShortener.Persistence\UrlShortener.Persistence.csproj" />
   </ItemGroup>
 
 

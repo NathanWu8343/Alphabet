@@ -1,10 +1,8 @@
-﻿using Elastic.Apm.SerilogEnricher;
-using Elastic.Apm.StackExchange.Redis;
+﻿using Elastic.Apm.StackExchange.Redis;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Serilog;
 using SharedKernel.Common;
 using SharedKernel.Messaging;
 using StackExchange.Redis;

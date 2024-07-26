@@ -1,5 +1,6 @@
 using Alphabet.AppHost.Extensions;
 using Alphabet.AppHost.Resources;
+using Aspire.Hosting;
 
 var builder = DistributedApplication.CreateBuilder(args);
 

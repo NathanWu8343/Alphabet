@@ -1,4 +1,6 @@
 ﻿using Alphabet.AppHost.Resources;
+using Aspire.Hosting;
+using Aspire.Hosting.ApplicationModel;
 
 namespace Alphabet.AppHost.Extensions
 {
