@@ -10,6 +10,7 @@ using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using System.Reflection.PortableExecutable;
 
 namespace Alphabet.ServiceDefaults;
 
@@ -57,6 +58,8 @@ public static class DependencyInjection
 
     public static IHostApplicationBuilder ConfigureOpenTelemetry(this IHostApplicationBuilder builder)
     {
+        var grafanaUrl = builder.Configuration.GetConnectionString("grafana")!;
+
         // Build a resource configuration action to set service information.
         Action<ResourceBuilder> configureResource = r => r
             .AddService(
@@ -89,7 +92,7 @@ public static class DependencyInjection
                 metrics.AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
                     .AddRuntimeInstrumentation()
-                    ;
+                    .AddOtlpExporter(cfg => cfg.Endpoint = new Uri(grafanaUrl));
             })
             .WithTracing(tracing =>
             {
@@ -103,7 +106,8 @@ public static class DependencyInjection
                         // Uncomment the following line to enable gRPC instrumentation (requires the OpenTelemetry.Instrumentation.GrpcNetClient package)
                         //.AddGrpcClientInstrumentation()
                         .AddHttpClientInstrumentation()
-                        .AddEntityFrameworkCoreInstrumentation();
+                        .AddEntityFrameworkCoreInstrumentation()
+                        .AddOtlpExporter(cfg => cfg.Endpoint = new Uri(grafanaUrl));
 
                 var redis = builder.Configuration.GetConnectionString("Redis");
                 if (!string.IsNullOrEmpty(redis))

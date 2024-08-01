@@ -6,6 +6,7 @@ using Serilog;
 using Serilog.Configuration;
 using Serilog.Enrichers.Span;
 using Serilog.Sinks.OpenTelemetry;
+using System;
 
 namespace Alphabet.ServiceDefaults.Extensions
 {
@@ -22,6 +23,7 @@ namespace Alphabet.ServiceDefaults.Extensions
             var env = builder.Environment.EnvironmentName;
             var sqlExporter = builder.Configuration.GetConnectionString("seqlog");
             var otlpExporter = builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"];
+            var grafanaExporter = builder.Configuration.GetConnectionString("grafana");
             var serviceName = builder.Configuration["OTEL_SERVICE_NAME"] ?? "Unknown";
             Log.Logger.Information("App Service name {Name}", serviceName);
 
@@ -43,6 +45,18 @@ namespace Alphabet.ServiceDefaults.Extensions
 
                 if (!string.IsNullOrEmpty(otlpExporter))
                     loggerConfiguration.WriteTo.OpenTelemetryWithAspire(otlpExporter, serviceName, env, builder.Configuration);
+
+                if (!string.IsNullOrEmpty(grafanaExporter))
+                {
+                    loggerConfiguration.WriteTo.OpenTelemetry(cfg =>
+                    {
+                        cfg.IncludedData = IncludedData.TraceIdField | IncludedData.SpanIdField;
+                        cfg.Endpoint = grafanaExporter;
+                        cfg.ResourceAttributes.Add("service.name", serviceName);
+                        cfg.ResourceAttributes.Add("environment.name", serviceName);
+                    }
+                    );
+                }
             });
 
             // Removes the built-in logging providers

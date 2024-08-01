@@ -7,12 +7,21 @@ using System.Threading;
 
 namespace Alphabet.AppHost.Resources
 {
-    internal sealed class ExternalContainerResource(string name, string containerNameOrId, string schema, int port) : Resource(name), IResourceWithEndpoints
+    internal sealed class ExternalContainerResource(string name, string containerNameOrId, string schema, int port)
+        : Resource(name), IResourceWithEndpoints, IResourceWithConnectionString
     {
+        internal const string Host = "localhost"; // 可以替換
+
         public string Schema { get; } = schema;
         public string ContainerNameOrId { get; } = containerNameOrId;
 
         public int Port { get; } = port;
+
+        /// <summary>
+        /// Gets the connection string expression for the Seq server.
+        /// </summary>
+        public ReferenceExpression ConnectionStringExpression =>
+            ReferenceExpression.Create($"{Schema}://{Host}:{Port.ToString()}");
     }
 
     internal static class ExternalContainerResourceExtensions

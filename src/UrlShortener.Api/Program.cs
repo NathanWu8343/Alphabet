@@ -74,7 +74,7 @@ namespace UrlShortener.Api
             if (app.Environment.IsDevelopment())
             {
                 app.UseDefaultOpenApi();
-                //  app.ApplyMigrations();
+                app.ApplyMigrations();
             }
 
             app.UseMiddleware<ExceptionHandlerMiddleware>();
