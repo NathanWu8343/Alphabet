@@ -19,7 +19,7 @@
 - Gateway
 
 ## 技術
-- APS.NET Core 8.0
+- ASP.NET Core 8.0
 - Entity Framework Core 8
 - MediatR
 - Swagger UI

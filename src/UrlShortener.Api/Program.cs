@@ -2,9 +2,11 @@ using Alphabet.ServiceDefaults;
 using Alphabet.ServiceDefaults.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Serilog;
+using System.Reflection.PortableExecutable;
 using UrlShortener.Api.Extensions;
 using UrlShortener.Api.Filters;
 using UrlShortener.Api.Middlewares;
+using UrlShortener.Api.Misc;
 using UrlShortener.Application;
 using UrlShortener.Infrastructure;
 using UrlShortener.Persistence;
@@ -16,6 +18,10 @@ namespace UrlShortener.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            // Create a service to expose ActivitySource, and Metric Instruments
+            // for manual instrumentation
+            builder.Services.AddSingleton<Instrumentation>();
 
             // Add service defaults & Aspire components.
             builder.AddServiceDefaults();
@@ -77,12 +83,12 @@ namespace UrlShortener.Api
                 app.ApplyMigrations();
             }
 
+            app.UseSerilogRequestLogging();
             app.UseMiddleware<ExceptionHandlerMiddleware>();
             app.UseInfrastructure();
 
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseSerilogRequestLogging();
             app.MapControllers();
             app.Run();
         }

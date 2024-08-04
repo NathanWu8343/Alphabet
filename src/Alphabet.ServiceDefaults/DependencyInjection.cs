@@ -89,7 +89,9 @@ public static class DependencyInjection
             .ConfigureResource(configureResource)
             .WithMetrics(metrics =>
             {
-                metrics.AddAspNetCoreInstrumentation()
+                metrics
+                    .AddMeter("Examples.AspNetCore")
+                    .AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
                     .AddRuntimeInstrumentation()
                     .AddOtlpExporter(cfg => cfg.Endpoint = new Uri(grafanaUrl));
@@ -102,7 +104,9 @@ public static class DependencyInjection
                     tracing.SetSampler(new AlwaysOnSampler());
                 }
 
-                tracing.AddAspNetCoreInstrumentation()
+                tracing
+                        .AddSource("Examples.AspNetCore")
+                        .AddAspNetCoreInstrumentation()
                         // Uncomment the following line to enable gRPC instrumentation (requires the OpenTelemetry.Instrumentation.GrpcNetClient package)
                         //.AddGrpcClientInstrumentation()
                         .AddHttpClientInstrumentation()

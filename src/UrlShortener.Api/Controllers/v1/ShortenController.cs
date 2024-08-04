@@ -5,10 +5,14 @@ using SharedKernel.Errors;
 using SharedKernel.Maybe;
 using SharedKernel.Results;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.Metrics;
+using System.Diagnostics;
 using UrlShortener.Api.Abstractions;
 using UrlShortener.Api.Contracts;
+using UrlShortener.Api.Misc;
 using UrlShortener.Application.Features.UrlShorteners.Commands;
 using UrlShortener.Application.Features.UrlShorteners.Queries;
+using OpenTelemetry.Trace;
 
 namespace UrlShortener.Api.Controllers.v1
 {
@@ -21,9 +25,16 @@ namespace UrlShortener.Api.Controllers.v1
     {
         private readonly ILogger<ShortenController> _logger;
 
-        public ShortenController(ILogger<ShortenController> logger)
+        private readonly ActivitySource _activitySource;
+        private readonly Counter<long> _freezingDaysCounter;
+
+        public ShortenController(ILogger<ShortenController> logger, Instrumentation instrumentation)
         {
             _logger = logger;
+
+            ArgumentNullException.ThrowIfNull(instrumentation);
+            this._activitySource = instrumentation.ActivitySource;
+            this._freezingDaysCounter = instrumentation.FreezingDaysCounter;
         }
 
         /// <summary>
@@ -43,9 +54,22 @@ namespace UrlShortener.Api.Controllers.v1
         [Route("create")]
         public async Task<IActionResult> Create([FromHeader(Name = "x-proxy-api")] string? proxyPath, CreateShortenUrlRequest request)
         {
+            // Optional: Manually create an activity. This will become a child of
+            // the activity created from the instrumentation library for AspNetCore.
+            // Manually created activities are useful when there is a desire to track
+            // a specific subset of the request. In this example one could imagine
+            // that calculating the forecast is an expensive operation and therefore
+            // something to be distinguished from the overall request.
+            // Note: Tags can be added to the current activity without the need for
+            // a manual activity using Activity.Current?.SetTag()
+            using var activity = _activitySource.StartActivity("calculate forecast");
+
             _logger.LogInformation("hello1");
 
             Log.Information("hello2");
+
+            // Optional: Count the freezing days
+            _freezingDaysCounter.Add(1);
 
             var path = string.IsNullOrEmpty(proxyPath)
                 ? $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/api"
