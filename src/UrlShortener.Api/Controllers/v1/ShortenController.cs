@@ -68,6 +68,8 @@ namespace UrlShortener.Api.Controllers.v1
 
             Log.Information("hello2");
 
+            throw new Exception("test");
+
             // Optional: Count the freezing days
             _freezingDaysCounter.Add(1);
 

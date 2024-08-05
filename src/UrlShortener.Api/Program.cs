@@ -1,6 +1,7 @@
 using Alphabet.ServiceDefaults;
 using Alphabet.ServiceDefaults.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using OpenTelemetry.Trace;
 using Serilog;
 using System.Reflection.PortableExecutable;
 using UrlShortener.Api.Extensions;
@@ -85,6 +86,7 @@ namespace UrlShortener.Api
 
             app.UseSerilogRequestLogging();
             app.UseMiddleware<ExceptionHandlerMiddleware>();
+            app.UseMiddleware<RequestIdMiddleware>();
             app.UseInfrastructure();
 
             app.UseAuthentication();
