@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UrlShortener.Domain.Entities;
 
-namespace UrlShortener.Application.Abstractions
+namespace UrlShortener.Application.Abstractions.Data
 {
     /// <summary>
     /// Represents the application database context interface.

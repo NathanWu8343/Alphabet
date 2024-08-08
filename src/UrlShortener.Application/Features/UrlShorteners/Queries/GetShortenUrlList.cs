@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SharedKernel.Maybe;
 using SharedKernel.Messaging;
 using SharedKernel.Messaging.Base;
 using SharedKernel.Pagination;
-using UrlShortener.Application.Abstractions;
+using UrlShortener.Application.Abstractions.Data;
 
 namespace UrlShortener.Application.Features.UrlShorteners.Queries
 {

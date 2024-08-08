@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
 using SharedKernel.Common;
-using UrlShortener.Application.Abstractions;
+using UrlShortener.Application.Abstractions.Data;
 using UrlShortener.Domain.Repositories;
 using UrlShortener.Persistence.Extensions;
 using UrlShortener.Persistence.Interceptors;

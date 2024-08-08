@@ -1,4 +1,4 @@
-﻿namespace UrlShortener.Application.Abstractions
+﻿namespace UrlShortener.Application.Abstractions.Caching
 {
     public interface ICacheProvider
     {

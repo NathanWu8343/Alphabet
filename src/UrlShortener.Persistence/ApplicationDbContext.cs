@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using UrlShortener.Application.Abstractions;
+using UrlShortener.Application.Abstractions.Data;
 using UrlShortener.Domain.Entities;
 using UrlShortener.Persistence.Extensions;
 

@@ -1,4 +1,4 @@
-﻿namespace UrlShortener.Application.Abstractions
+﻿namespace UrlShortener.Application.Abstractions.Data
 {
     public interface IUnitOfWork
     {

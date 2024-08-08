@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
 using System.Text.Json;
-using UrlShortener.Application.Abstractions;
+using UrlShortener.Application.Abstractions.Caching;
 
 namespace UrlShortener.Infrastructure.Redis
 {

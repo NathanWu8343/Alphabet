@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using SharedKernel.Maybe;
 using SharedKernel.Messaging;
 using SharedKernel.Messaging.Base;
-using UrlShortener.Application.Abstractions;
+using UrlShortener.Application.Abstractions.Data;
 using UrlShortener.Application.Features.UrlShorteners.Events;
 
 namespace UrlShortener.Application.Features.UrlShorteners.Queries

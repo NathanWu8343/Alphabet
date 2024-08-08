@@ -2,7 +2,7 @@
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using UrlShortener.Application.Behaviors;
+using UrlShortener.Application.Abstractions.Behaviors;
 using UrlShortener.Application.Extensions;
 
 namespace UrlShortener.Application

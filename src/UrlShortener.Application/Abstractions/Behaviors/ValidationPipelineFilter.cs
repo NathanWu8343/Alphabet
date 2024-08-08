@@ -8,7 +8,7 @@ using SharedKernel.Results;
 using System.Reflection;
 using ValidationResult = FluentValidation.Results.ValidationResult;
 
-namespace UrlShortener.Application.Behaviors
+namespace UrlShortener.Application.Abstractions.Behaviors
 {
     internal sealed class ValidationPipelineFilter<TRequest>
         : IFilter<ConsumeContext<TRequest>>

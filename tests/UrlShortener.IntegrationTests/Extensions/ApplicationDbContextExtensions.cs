@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using UrlShortener.Application.Abstractions;
+using UrlShortener.Application.Abstractions.Data;
 using UrlShortener.IntegrationTests.Fixtures;
 using UrlShortener.Persistence;
 

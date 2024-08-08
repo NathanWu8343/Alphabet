@@ -1,4 +1,4 @@
-﻿using UrlShortener.Application.Abstractions;
+﻿using UrlShortener.Application.Abstractions.Caching;
 using UrlShortener.Domain.Repositories;
 
 namespace UrlShortener.Persistence.Repositories.Redis
