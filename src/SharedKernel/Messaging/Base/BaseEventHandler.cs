@@ -34,7 +34,7 @@ namespace SharedKernel.Messaging.Base
                          , requestName
                          , ex.Message);
 
-                return Task.CompletedTask;
+                throw;
             }
         }
 

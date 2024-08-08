@@ -43,6 +43,7 @@ namespace SharedKernel.Messaging.Base
                 Logger.LogError(ex, "Request: {RequestName} failed with error: {Error}"
                      , requestName
                      , ex.Message);
+                throw;
             }
         }
 
