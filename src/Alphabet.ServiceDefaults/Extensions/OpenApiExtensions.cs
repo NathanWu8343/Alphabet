@@ -1,4 +1,5 @@
-﻿using Asp.Versioning.ApiExplorer;
+﻿using Alphabet.ServiceDefaults.Swagger;
+using Asp.Versioning.ApiExplorer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -28,6 +29,8 @@ namespace Alphabet.ServiceDefaults.Extensions
                 });
 
                 options.OperationFilter<SecurityRequirementsOperationFilter>(true, "Bearer");
+                options.DocumentFilter<SwaggerAddEnumDescriptions>();
+                options.OperationFilter<SwaggerDefaultValues>();
 
                 // integrate xml comments
                 options.IncludeXmlComments(XmlCommentsFilePath, true);
@@ -58,51 +61,6 @@ namespace Alphabet.ServiceDefaults.Extensions
                 var basePath = AppContext.BaseDirectory;
                 var fileName = $"{Assembly.GetEntryAssembly()!.GetName().Name}.xml";
                 return Path.Combine(basePath, fileName);
-            }
-        }
-
-        private sealed class ConfigureSwaggerGenOptions : IConfigureNamedOptions<SwaggerGenOptions>
-        {
-            private readonly IApiVersionDescriptionProvider _provider;
-
-            public ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider provider)
-            {
-                _provider = provider;
-            }
-
-            public void Configure(string? name, SwaggerGenOptions options)
-            {
-                Configure(options);
-            }
-
-            public void Configure(SwaggerGenOptions options)
-            {
-                foreach (var description in _provider.ApiVersionDescriptions)
-                {
-                    try
-                    {
-                        options.SwaggerDoc(description.GroupName, CreateInfoForApiVersion(description));
-                    }
-                    catch (Exception)
-                    {
-                        //TODO
-                    }
-                }
-            }
-
-            private static OpenApiInfo CreateInfoForApiVersion(ApiVersionDescription description)
-            {
-                var name = Assembly.GetEntryAssembly()!.GetName().Name!.Replace(".", " ");
-                var info = new OpenApiInfo()
-                {
-                    Title = $"{name}.",
-                    Version = description.ApiVersion.ToString()
-                };
-                if (description.IsDeprecated)
-                {
-                    info.Description += " This API version has been deprecated.";
-                }
-                return info;
             }
         }
     }
