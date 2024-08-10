@@ -1,4 +1,3 @@
-using Alphabet.ServiceDefaults;
 using ApiGateway.Configs;
 using ApiGateway.Extensions;
 using ApiGateway.Swagger;
@@ -6,6 +5,7 @@ using ApiGateway.Swagger.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using ServiceDefaults;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace ApiGateway

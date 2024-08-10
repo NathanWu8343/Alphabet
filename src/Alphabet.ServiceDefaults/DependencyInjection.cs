@@ -1,4 +1,3 @@
-using Alphabet.ServiceDefaults.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Configuration;
@@ -10,9 +9,10 @@ using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using ServiceDefaults.Extensions;
 using System.Reflection.PortableExecutable;
 
-namespace Alphabet.ServiceDefaults;
+namespace ServiceDefaults;
 
 // Adds common .NET Aspire services: service discovery, resilience, health checks, and OpenTelemetry.
 // This project should be referenced by each service project in your solution.
@@ -58,7 +58,7 @@ public static class DependencyInjection
 
     public static IHostApplicationBuilder ConfigureOpenTelemetry(this IHostApplicationBuilder builder)
     {
-        var grafanaUrl = builder.Configuration.GetConnectionString("grafana")!;
+        var grafanaUrl = builder.Configuration.GetConnectionString("grafana");
 
         // Build a resource configuration action to set service information.
         Action<ResourceBuilder> configureResource = r => r

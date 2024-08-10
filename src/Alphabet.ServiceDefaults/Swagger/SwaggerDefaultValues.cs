@@ -3,7 +3,7 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Alphabet.ServiceDefaults.Swagger
+namespace ServiceDefaults.Swagger
 {
     // <summary>
     /// Applies the filter to the specified operation using the given context.

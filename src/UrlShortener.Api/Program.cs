@@ -1,9 +1,9 @@
-using Alphabet.ServiceDefaults;
-using Alphabet.ServiceDefaults.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using OpenTelemetry.Trace;
 using Serilog;
+using ServiceDefaults;
+using ServiceDefaults.Extensions;
 using System.Reflection.PortableExecutable;
 using UrlShortener.Api.Extensions;
 using UrlShortener.Api.Filters;
@@ -53,7 +53,6 @@ namespace UrlShortener.Api
                 {
                     options.Filters.Add<ModelStateValidationAttribute>();
                     options.Conventions.Add(new RouteTokenTransformerConvention(new ToKebabParameterTransformer())); // 將駝峰改為 Tokenbab 形式
-
                 })
                 .ConfigureApiBehaviorOptions(options =>
                 {

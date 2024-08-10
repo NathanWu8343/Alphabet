@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Alphabet.ServiceDefaults\Alphabet.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\Alphabet.ServiceDefaults\ServiceDefaults.csproj" />
   </ItemGroup>
 
 </Project>

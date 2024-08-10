@@ -3,7 +3,7 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Alphabet.ServiceDefaults.Swagger
+namespace ServiceDefaults.Swagger
 {
     /// <summary>
     /// Add enum value descriptions to Swagger

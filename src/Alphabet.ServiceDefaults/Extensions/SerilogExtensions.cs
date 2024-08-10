@@ -6,9 +6,8 @@ using Serilog;
 using Serilog.Configuration;
 using Serilog.Enrichers.Span;
 using Serilog.Sinks.OpenTelemetry;
-using System;
 
-namespace Alphabet.ServiceDefaults.Extensions
+namespace ServiceDefaults.Extensions
 {
     internal static class SerilogExtensions
     {

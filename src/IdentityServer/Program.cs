@@ -1,5 +1,5 @@
-using Alphabet.ServiceDefaults;
 using IdentityServer.Configs;
+using ServiceDefaults;
 
 namespace IdentityServer
 {

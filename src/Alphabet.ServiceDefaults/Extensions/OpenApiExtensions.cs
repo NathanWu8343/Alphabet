@@ -1,14 +1,12 @@
-﻿using Alphabet.ServiceDefaults.Swagger;
-using Asp.Versioning.ApiExplorer;
+﻿using Asp.Versioning.ApiExplorer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using ServiceDefaults.Swagger;
 using Swashbuckle.AspNetCore.Filters;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 
-namespace Alphabet.ServiceDefaults.Extensions
+namespace ServiceDefaults.Extensions
 {
     public static class OpenApiExtensions
     {
@@ -29,7 +27,7 @@ namespace Alphabet.ServiceDefaults.Extensions
                 });
 
                 options.OperationFilter<SecurityRequirementsOperationFilter>(true, "Bearer");
-                options.DocumentFilter<SwaggerAddEnumDescriptions>();
+                options.DocumentFilter<SwaggerEnumDocumentFilter>();
                 options.OperationFilter<SwaggerDefaultValues>();
 
                 // integrate xml comments

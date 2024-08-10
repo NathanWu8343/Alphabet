@@ -40,7 +40,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "99- Tests", "99- Tests", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alphabet.AppHost", "src\Alphabet.AppHost\Alphabet.AppHost.csproj", "{42589459-16F9-43FA-8B35-D5B4E97C9605}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alphabet.ServiceDefaults", "src\Alphabet.ServiceDefaults\Alphabet.ServiceDefaults.csproj", "{131B0FB3-1964-4A0A-8D44-E48C6444E95B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceDefaults", "src\Alphabet.ServiceDefaults\ServiceDefaults.csproj", "{131B0FB3-1964-4A0A-8D44-E48C6444E95B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArchitectureTests", "tests\ArchitectureTests\ArchitectureTests.csproj", "{B8062534-483B-4110-B304-7891874384E4}"
 EndProject
