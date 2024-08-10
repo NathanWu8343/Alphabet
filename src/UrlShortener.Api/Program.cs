@@ -1,6 +1,7 @@
 using Alphabet.ServiceDefaults;
 using Alphabet.ServiceDefaults.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using OpenTelemetry.Trace;
 using Serilog;
 using System.Reflection.PortableExecutable;
@@ -40,17 +41,19 @@ namespace UrlShortener.Api
                 options.LowercaseQueryStrings = true;
             });
 
-            builder.Services.AddVersion();
+            builder.Services.AddApiVersion();
 
             //NOTE: 需要搭配 builder.Services.AddVersion()
             builder.Services.AddDefaultOpenApi();
 
             builder.Services.AddSingleton<TimeProvider>(TimeProvider.System);
 
-            builder.Services.
-                AddControllers(options =>
+            builder.Services
+                .AddControllers(options =>
                 {
                     options.Filters.Add<ModelStateValidationAttribute>();
+                    options.Conventions.Add(new RouteTokenTransformerConvention(new ToKebabParameterTransformer())); // 將駝峰改為 Tokenbab 形式
+
                 })
                 .ConfigureApiBehaviorOptions(options =>
                 {

@@ -31,7 +31,8 @@ namespace Alphabet.ServiceDefaults.Swagger
                 }
                 catch (Exception)
                 {
-                    //TODO
+                    //TODO: 待補上LOG
+                    throw;
                 }
             }
         }
@@ -41,8 +42,11 @@ namespace Alphabet.ServiceDefaults.Swagger
             var name = Assembly.GetEntryAssembly()!.GetName().Name!.Replace(".", " ");
             var info = new OpenApiInfo()
             {
-                Title = $"{name}.",
-                Version = description.ApiVersion.ToString()
+                Title = $"{name}.", //TODO: 需要增加公司產品名
+                Version = description.ApiVersion.ToString(),
+                Description = "", //TODO: 需要增加公司產品描述
+                //Contact = new OpenApiContact() { Name = "Mennan Köse", Email = "mennankose@gmail.com" },
+                //License = new OpenApiLicense() { Name = "MIT", Url = new Uri("https://opensource.org/licenses/MIT") }
             };
             if (description.IsDeprecated)
             {

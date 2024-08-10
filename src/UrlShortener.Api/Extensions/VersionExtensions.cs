@@ -1,10 +1,11 @@
 ﻿using Asp.Versioning;
+using Asp.Versioning.Conventions;
 
 namespace UrlShortener.Api.Extensions
 {
     public static class VersionExtensions
     {
-        public static void AddVersion(this IServiceCollection services)
+        public static void AddApiVersion(this IServiceCollection services)
         {
             services.AddApiVersioning(options =>
             {
@@ -20,6 +21,9 @@ namespace UrlShortener.Api.Extensions
                 // note: this option is only necessary when versioning by url segment. the SubstitutionFormat
                 // can also be used to control the format of the API version in route templates
                 options.SubstituteApiVersionInUrl = true;
+            }).AddMvc(options =>
+            {
+                options.Conventions.Add(new VersionByNamespaceConvention());
             });
         }
     }
