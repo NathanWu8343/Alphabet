@@ -15,10 +15,10 @@ namespace UrlShortener.Application.Features.UrlShorteners.Queries
     internal sealed class GetVisitShortenUrlByCodeQueryHandler :
         BaseQueryHandler<GetVisitShortenUrlByCodeQuery, Maybe<string>>
     {
-        private readonly IDbContext _dbContext;
+        private readonly IWriteDbContext _dbContext;
         private readonly IDispatcher _mediator;
 
-        public GetVisitShortenUrlByCodeQueryHandler(ILogger<GetVisitShortenUrlByCodeQueryHandler> logger, IDispatcher mediator, IDbContext dbContext)
+        public GetVisitShortenUrlByCodeQueryHandler(ILogger<GetVisitShortenUrlByCodeQueryHandler> logger, IDispatcher mediator, IWriteDbContext dbContext)
             : base(logger)
         {
             _mediator = mediator;

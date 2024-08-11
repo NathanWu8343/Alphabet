@@ -15,10 +15,10 @@ namespace UrlShortener.Application.Features.UrlShorteners.Queries
     internal sealed class GetUrlVistorCountByCodeQueryHandler :
         BaseQueryHandler<GtUrlVistorCountByCodeQuery, Maybe<double>>
     {
-        private readonly IDbContext _dbContext;
+        private readonly IWriteDbContext _dbContext;
         private readonly IVistorCounterRespository _vistorCounterRespository;
 
-        public GetUrlVistorCountByCodeQueryHandler(ILogger<GetUrlVistorCountByCodeQueryHandler> logger, IVistorCounterRespository vistorCounterRespository, IDbContext dbContext)
+        public GetUrlVistorCountByCodeQueryHandler(ILogger<GetUrlVistorCountByCodeQueryHandler> logger, IVistorCounterRespository vistorCounterRespository, IWriteDbContext dbContext)
             : base(logger)
         {
             _vistorCounterRespository = vistorCounterRespository;

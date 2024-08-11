@@ -8,7 +8,7 @@ namespace UrlShortener.Persistence.Repositories
         Repository<ShortenedUrl, ShortenedUrlId>,
         IShortenedUrlRepository
     {
-        public ShortenedUrlRepository(ApplicationDbContext dbContext) : base(dbContext)
+        public ShortenedUrlRepository(ApplicationWriteDbContext dbContext) : base(dbContext)
         {
         }
     }

@@ -5,7 +5,7 @@ using UrlShortener.Domain.Entities;
 using UrlShortener.Domain.ValueObjects;
 using UrlShortener.Persistence.Contants;
 
-namespace UrlShortener.Persistence.Configurations
+namespace UrlShortener.Persistence.Configurations.Write
 {
     internal sealed class ShortenedUrlConfiguration : IEntityTypeConfiguration<ShortenedUrl>
     {

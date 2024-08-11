@@ -7,9 +7,9 @@ namespace UrlShortener.Persistence.Repositories
         where TEntity : AggregateRoot<TKey>
         where TKey : class
     {
-        protected readonly ApplicationDbContext DbContext;
+        protected readonly ApplicationWriteDbContext DbContext;
 
-        protected Repository(ApplicationDbContext dbContext)
+        protected Repository(ApplicationWriteDbContext dbContext)
         {
             DbContext = dbContext;
         }

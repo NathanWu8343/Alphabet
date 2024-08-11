@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using UrlShortener.Persistence.Contants;
 using UrlShortener.Persistence.Outbox;
 
-namespace UrlShortener.Persistence.Configurations
+namespace UrlShortener.Persistence.Configurations.Write
 {
     internal sealed class OutboxMessageConsumerConfiguration : IEntityTypeConfiguration<OutboxMessageConsumer>
     {

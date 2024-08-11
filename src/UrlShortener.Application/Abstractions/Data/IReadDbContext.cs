@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using UrlShortener.Domain.Entities;
+using UrlShortener.Application.Models;
 
 namespace UrlShortener.Application.Abstractions.Data
 {
     /// <summary>
     /// Represents the application database context interface.
     /// </summary>
-    public interface IDbContext
+    public interface IReadDbContext
     {
-        public DbSet<ShortenedUrl> ShortendUrls { get; }
+        public DbSet<ShortenUrlReadModel> ShortendUrls { get; }
     }
 }

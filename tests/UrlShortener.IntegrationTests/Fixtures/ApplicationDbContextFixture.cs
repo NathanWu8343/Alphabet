@@ -6,10 +6,10 @@ namespace UrlShortener.IntegrationTests.Fixtures
 {
     internal class ApplicationDbContextFixture
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly ApplicationWriteDbContext _dbContext;
         private readonly IUnitOfWork _unitOfWork;
 
-        public ApplicationDbContextFixture(ApplicationDbContext dbContext, IUnitOfWork unitOfWork)
+        public ApplicationDbContextFixture(ApplicationWriteDbContext dbContext, IUnitOfWork unitOfWork)
         {
             _dbContext = dbContext;
             _unitOfWork = unitOfWork;

@@ -1,5 +1,4 @@
-﻿using MassTransit;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SharedKernel.Maybe;
 using SharedKernel.Messaging;
@@ -18,9 +17,9 @@ namespace UrlShortener.Application.Features.UrlShorteners.Queries
     internal sealed class GetShortenUrlListQueryHandeler :
         BaseQueryHandler<GetShortenUrlListQuery, Maybe<PagedList<ShortenUrlResponse>>>
     {
-        private readonly IDbContext _dbContext;
+        private readonly IReadDbContext _dbContext;
 
-        public GetShortenUrlListQueryHandeler(ILogger<GetShortenUrlListQueryHandeler> logger, IDbContext dbContext)
+        public GetShortenUrlListQueryHandeler(ILogger<GetShortenUrlListQueryHandeler> logger, IReadDbContext dbContext)
             : base(logger)
         {
             _dbContext = dbContext;
@@ -29,11 +28,11 @@ namespace UrlShortener.Application.Features.UrlShorteners.Queries
         public override async Task<Maybe<PagedList<ShortenUrlResponse>>> Handle(GetShortenUrlListQuery request, CancellationToken cancellationToken)
         {
             var data = await _dbContext.ShortendUrls
-                  .OrderBy(x => x.CreatedAtUtc)
-                  .Skip((request.Page - 1) * request.PageSize)
-                  .Take(request.PageSize)
-                  .Select(x => new ShortenUrlResponse(x.Code, x.ShortUrl))
-                  .ToListAsync(cancellationToken);
+                        .OrderBy(x => x.CreatedAtUtc)
+                        .Skip((request.Page - 1) * request.PageSize)
+                        .Take(request.PageSize)
+                        .Select(x => new ShortenUrlResponse(x.Code, x.ShortUrl))
+                        .ToListAsync(cancellationToken);
 
             var totalCount = await _dbContext.ShortendUrls.CountAsync(cancellationToken);
 

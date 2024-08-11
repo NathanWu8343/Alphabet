@@ -11,8 +11,8 @@ namespace UrlShortener.Api.Extensions
         {
             using IServiceScope scope = app.ApplicationServices.CreateScope();
 
-            using ApplicationDbContext dbContext =
-                scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            using ApplicationWriteDbContext dbContext =
+                scope.ServiceProvider.GetRequiredService<ApplicationWriteDbContext>();
 
             // crate
             var dbCreator = dbContext.GetService<IRelationalDatabaseCreator>();

@@ -2,6 +2,7 @@
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using UrlShortener.Application.Abstractions;
 using UrlShortener.Application.Abstractions.Behaviors;
 using UrlShortener.Application.Extensions;
 
@@ -43,8 +44,10 @@ namespace UrlShortener.Application
                 //   cfg.AddConsumer<CreateShortUrlCommandHandler>();
                 //cfg.AddConsumers(Assembly.GetExecutingAssembly());
                 //cfg.AddConsumers(UrlShortener.Application.AssemblyReference.Assembly);
-                cfg.AddConsumersFromAssemblyContaining(UrlShortener.Application.AssemblyReference.Assembly);
+                cfg.AddConsumersFromAssemblyContaining(Assembly.GetExecutingAssembly());
             });
+
+            services.AddScoped<ISharedContext, SharedContext>();
 
             return services;
         }

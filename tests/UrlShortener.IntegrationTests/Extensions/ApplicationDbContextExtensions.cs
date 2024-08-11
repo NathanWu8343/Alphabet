@@ -9,7 +9,7 @@ namespace UrlShortener.IntegrationTests.Extensions
     {
         public static ApplicationDbContextFixture GetShortendUrlsDbContext(this IServiceProvider serviceProvider)
         {
-            var dbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
+            var dbContext = serviceProvider.GetRequiredService<ApplicationWriteDbContext>();
             var uow = serviceProvider.GetRequiredService<IUnitOfWork>();
             return new ApplicationDbContextFixture(dbContext, uow);
         }

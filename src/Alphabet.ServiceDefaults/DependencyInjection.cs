@@ -10,7 +10,6 @@ using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using ServiceDefaults.Extensions;
-using System.Reflection.PortableExecutable;
 
 namespace ServiceDefaults;
 

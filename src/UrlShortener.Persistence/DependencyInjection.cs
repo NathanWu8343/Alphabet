@@ -35,8 +35,8 @@ namespace UrlShortener.Persistence
 
             var serverVersion = new MariaDbServerVersion(new Version(10, 5, 5));
 
-            // DB
-            services.AddDbContext<ApplicationDbContext>(
+            // Write DB
+            services.AddDbContext<ApplicationWriteDbContext>(
             (sp, options) => options
                  .UseMySql(sp.GetRequiredService<DbConnectionFactory>(), serverVersion)
                  .LogTo(Console.WriteLine, LogLevel.Information)
@@ -47,8 +47,16 @@ namespace UrlShortener.Persistence
             //.UseSnakeCaseNamingConvention();
             //.AddInterceptors(sp.GetRequiredService<InsertOutboxMessagesInterceptor>()));
 
-            services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
-            services.AddScoped<IDbContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
+            services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationWriteDbContext>());
+            services.AddScoped<IWriteDbContext>(sp => sp.GetRequiredService<ApplicationWriteDbContext>());
+
+            // Read DB
+            services.AddDbContext<ApplicationReadDbContext>(
+              (sp, options) => options
+                    .UseMySql(sp.GetRequiredService<DbConnectionFactory>(), serverVersion)
+                    //.UseSnakeCaseNamingConvention()
+                    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+            services.AddScoped<IReadDbContext>(sp => sp.GetRequiredService<ApplicationReadDbContext>());
 
             //repositoryTransient
             services.AddScoped<IShortenedUrlRepository, ShortenedUrlRepository>();

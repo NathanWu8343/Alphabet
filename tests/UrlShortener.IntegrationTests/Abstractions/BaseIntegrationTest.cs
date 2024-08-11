@@ -23,7 +23,7 @@ namespace UrlShortener.IntegrationTests.Abstractions
         public virtual Task InitializeAsync()
         {
             // database init
-            var dbContext = _serviceProvider.GetRequiredService<ApplicationDbContext>();
+            var dbContext = _serviceProvider.GetRequiredService<ApplicationWriteDbContext>();
             dbContext.Database.Migrate();
 
             return Task.CompletedTask;
