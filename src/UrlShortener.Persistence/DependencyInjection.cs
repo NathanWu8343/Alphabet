@@ -38,6 +38,7 @@ namespace UrlShortener.Persistence
             // Write DB
             services.AddDbContext<ApplicationWriteDbContext>(
             (sp, options) => options
+                 //.UseModel(ApplicationWriteDbContextModel.Instance)
                  .UseMySql(sp.GetRequiredService<DbConnectionFactory>(), serverVersion)
                  .LogTo(Console.WriteLine, LogLevel.Information)
                  .AddInterceptors(
