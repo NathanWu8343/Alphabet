@@ -3,7 +3,7 @@
 namespace SharedKernel.Results
 {
     /// <summary>
-    /// Represents a result of some operation, with status information and possibly an error.
+    /// Represents the result of some operation, with status information and possibly an error.
     /// </summary>
     public class Result
     {
@@ -14,14 +14,9 @@ namespace SharedKernel.Results
         /// <param name="error">The error.</param>
         protected Result(bool isSuccess, Error error)
         {
-            if (isSuccess && error != Error.None)
+            if (isSuccess == (error != Error.None))
             {
-                throw new InvalidOperationException();
-            }
-
-            if (!isSuccess && error == Error.None)
-            {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("Error status must match success flag.");
             }
 
             IsSuccess = isSuccess;
@@ -46,7 +41,6 @@ namespace SharedKernel.Results
         /// <summary>
         /// Returns a success <see cref="Result"/>.
         /// </summary>
-        /// <returns>A new instance of <see cref="Result"/> with the success flag set.</returns>
         public static Result Success() => new(true, Error.None);
 
         /// <summary>
@@ -64,8 +58,8 @@ namespace SharedKernel.Results
         /// <param name="value">The result value.</param>
         /// <param name="error">The error in case the value is null.</param>
         /// <returns>A new instance of <see cref="Result{TValue}"/> with the specified value or an error.</returns>
-        public static Result<TValue> Create<TValue>(TValue value, Error error)
-            => value is null ? Failure<TValue>(error) : Success(value);
+        public static Result<TValue> Create<TValue>(TValue value, Error error) =>
+            value is null ? Failure<TValue>(error) : Success(value);
 
         /// <summary>
         /// Returns a failure <see cref="Result"/> with the specified error.
@@ -80,10 +74,6 @@ namespace SharedKernel.Results
         /// <typeparam name="TValue">The result type.</typeparam>
         /// <param name="error">The error.</param>
         /// <returns>A new instance of <see cref="Result{TValue}"/> with the specified error and failure flag set.</returns>
-        /// <remarks>
-        /// We're purposefully ignoring the nullable assignment here because the API will never allow it to be accessed.
-        /// The value is accessed through a method that will throw an exception if the result is a failure result.
-        /// </remarks>
         public static Result<TValue> Failure<TValue>(Error error) => new(default!, false, error);
 
         /// <summary>
@@ -91,20 +81,8 @@ namespace SharedKernel.Results
         /// If there is no failure, a success is returned.
         /// </summary>
         /// <param name="results">The results array.</param>
-        /// <returns>
-        /// The first failure from the specified <paramref name="results"/> array,or a success it does not exist.
-        /// </returns>
-        public static Result FirstFailureOrSuccess(params Result[] results)
-        {
-            foreach (Result result in results)
-            {
-                if (result.IsFailure)
-                {
-                    return result;
-                }
-            }
-
-            return Success();
-        }
+        /// <returns>The first failure from the specified <paramref name="results"/> array, or a success if none exist.</returns>
+        public static Result FirstFailureOrSuccess(params Result[] results) =>
+            results.FirstOrDefault(result => result.IsFailure) ?? Success();
     }
 }
