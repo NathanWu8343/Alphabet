@@ -18,19 +18,22 @@ namespace UrlShortener.Application.UnitTests.UrlShorteners.Commands
             "http://google.com",
             "http://localhost/api");
 
-        private readonly IShortenedUrlRepository _mockShortenedUrlRepository;
-        private readonly IUnitOfWork _stubUnitOfWork;
-        private readonly IShortCodeGenerator _stubShortCodeGenerator;
-        private readonly TimeProvider _stubTimeProvider;
-        private readonly ILogger<CreateShortUrlCommandHandler> _logger;
+        private readonly IShortenedUrlRepository _mockShortenedUrlRepository = Substitute.For<IShortenedUrlRepository>();
+        private readonly IUnitOfWork _stubUnitOfWork = Substitute.For<IUnitOfWork>();
+        private readonly IShortCodeGenerator _stubShortCodeGenerator = Substitute.For<IShortCodeGenerator>();
+        private readonly ILogger<CreateShortUrlCommandHandler> _logger = NullLogger<CreateShortUrlCommandHandler>.Instance;
+        private readonly TimeProvider _stubTimeProvider = new FakeTimeProvider();
+
+        private readonly CreateShortUrlCommandHandler _handler;
 
         public CreateShortUrlCommandHandlerTests()
         {
-            _mockShortenedUrlRepository = Substitute.For<IShortenedUrlRepository>();
-            _stubUnitOfWork = Substitute.For<IUnitOfWork>();
-            _stubShortCodeGenerator = Substitute.For<IShortCodeGenerator>();
-            _stubTimeProvider = new FakeTimeProvider();
-            _logger = NullLogger<CreateShortUrlCommandHandler>.Instance;
+            _handler = new CreateShortUrlCommandHandler(
+                _logger,
+                _mockShortenedUrlRepository,
+                _stubUnitOfWork,
+                _stubShortCodeGenerator,
+                _stubTimeProvider);
         }
 
         [Theory]
@@ -41,15 +44,8 @@ namespace UrlShortener.Application.UnitTests.UrlShorteners.Commands
             // Arrange
             var command = Command with { Url = url };
 
-            var handle = new CreateShortUrlCommandHandler(
-                _logger,
-                _mockShortenedUrlRepository,
-                _stubUnitOfWork,
-                _stubShortCodeGenerator,
-                _stubTimeProvider);
-
             // act
-            await Assert.ThrowsAsync<ArgumentException>(() => handle.Handle(command, default));
+            await Assert.ThrowsAsync<ArgumentException>(() => _handler.Handle(command, default));
         }
 
         [Fact]
@@ -60,15 +56,8 @@ namespace UrlShortener.Application.UnitTests.UrlShorteners.Commands
 
             _stubShortCodeGenerator.Generate(Arg.Any<string>()).Returns(string.Empty);
 
-            var handle = new CreateShortUrlCommandHandler(
-                _logger,
-                _mockShortenedUrlRepository,
-                _stubUnitOfWork,
-                _stubShortCodeGenerator,
-                _stubTimeProvider);
-
             // act
-            await Assert.ThrowsAsync<ArgumentException>(() => handle.Handle(command, default));
+            await Assert.ThrowsAsync<ArgumentException>(() => _handler.Handle(command, default));
         }
 
         [Fact]
@@ -78,15 +67,8 @@ namespace UrlShortener.Application.UnitTests.UrlShorteners.Commands
             var command = Command;
             _stubShortCodeGenerator.Generate(Arg.Any<string>()).Returns("xxx");
 
-            var handle = new CreateShortUrlCommandHandler(
-                _logger,
-                _mockShortenedUrlRepository,
-                _stubUnitOfWork,
-                _stubShortCodeGenerator,
-                _stubTimeProvider);
-
             // act
-            var result = await handle.Handle(command, default);
+            var result = await _handler.Handle(command, default);
 
             // assert
             result.IsSuccess.Should().BeTrue();
@@ -100,15 +82,8 @@ namespace UrlShortener.Application.UnitTests.UrlShorteners.Commands
             var command = Command;
             _stubShortCodeGenerator.Generate(Arg.Any<string>()).Returns("xxx");
 
-            var handle = new CreateShortUrlCommandHandler(
-                _logger,
-                _mockShortenedUrlRepository,
-                _stubUnitOfWork,
-                _stubShortCodeGenerator,
-                _stubTimeProvider);
-
             // act
-            var result = await handle.Handle(command, default);
+            var result = await _handler.Handle(command, default);
 
             // assert
             _mockShortenedUrlRepository

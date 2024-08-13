@@ -52,7 +52,7 @@ namespace UrlShortener.Api.Controllers.v1
         /// </remarks>
         [HttpPost]
         [Route("create")]
-        public async Task<IActionResult> Create([FromHeader(Name = "x-proxy-api")] string? proxyPath, [FromQuery] TestEnum testEnum, [FromBody] CreateShortenUrlRequest request)
+        public async Task<IActionResult> Create([FromHeader(Name = "x-proxy-api")] string? proxyPath, [FromBody] CreateShortenUrlRequest request)
         {
             // Optional: Manually create an activity. This will become a child of
             // the activity created from the instrumentation library for AspNetCore.

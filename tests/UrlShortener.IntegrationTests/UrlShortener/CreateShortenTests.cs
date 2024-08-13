@@ -9,10 +9,7 @@ namespace UrlShortener.IntegrationTests.UrlShortener
 {
     public class CreateShortenTests : BaseIntegrationTest
     {
-        private static readonly CreateShortenUrlRequest Request = new()
-        {
-            Url = "http://google.com"
-        };
+        private static readonly CreateShortenUrlRequest Request = new CreateShortenUrlRequest { Url = "http://google.com" };
 
         public CreateShortenTests(IntegrationTestWebAppFactory factory) : base(factory)
         {

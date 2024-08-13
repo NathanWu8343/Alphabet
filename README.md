@@ -11,7 +11,7 @@
 - 系統圖(待補)
 - DDD
 - CQRS
-- Clean Code
+- Clean Architecture
 - Unit of Work
 - Result Pattern
 - Repository Pattern
