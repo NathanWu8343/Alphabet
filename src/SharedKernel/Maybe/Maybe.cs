@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SharedKernel.Maybe
+﻿namespace SharedKernel.Maybe
 {
     /// <summary>
     /// Represents a wrapper around a value that may or may not be null.
@@ -23,19 +17,19 @@ namespace SharedKernel.Maybe
         /// <summary>
         /// Gets a value indicating whether or not the value exists.
         /// </summary>
-        public bool HasValue => !HasNoValue;
+        public bool HasValue => _value != null;
 
         /// <summary>
         /// Gets a value indicating whether or not the value does not exist.
         /// </summary>
-        public bool HasNoValue => _value is null;
+        public bool HasNoValue => _value == null;
 
         /// <summary>
         /// Gets the value.
         /// </summary>
         public T Value => HasValue
             ? _value
-            : throw new InvalidOperationException("The value can not be accessed because it does not exist.");
+            : throw new InvalidOperationException("The value cannot be accessed because it does not exist.");
 
         /// <summary>
         /// Gets the default empty instance.
@@ -57,34 +51,30 @@ namespace SharedKernel.Maybe
         public bool Equals(Maybe<T> other)
         {
             if (other is null)
-            {
                 return false;
-            }
+
+            if (ReferenceEquals(this, other))
+                return true;
 
             if (HasNoValue && other.HasNoValue)
-            {
                 return true;
-            }
 
             if (HasNoValue || other.HasNoValue)
-            {
                 return false;
-            }
 
-            return Value.Equals(other.Value);
+            return EqualityComparer<T>.Default.Equals(_value, other._value);
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj) =>
-            obj switch
-            {
-                null => false,
-                T value => Equals(new Maybe<T>(value)),
-                Maybe<T> maybe => Equals(maybe),
-                _ => false
-            };
+        public override bool Equals(object obj) => obj switch
+        {
+            null => false,
+            T value => Equals(new Maybe<T>(value)),
+            Maybe<T> maybe => Equals(maybe),
+            _ => false
+        };
 
         /// <inheritdoc />
-        public override int GetHashCode() => HasValue ? Value.GetHashCode() : 0;
+        public override int GetHashCode() => HasValue ? EqualityComparer<T>.Default.GetHashCode(_value) : 0;
     }
 }
