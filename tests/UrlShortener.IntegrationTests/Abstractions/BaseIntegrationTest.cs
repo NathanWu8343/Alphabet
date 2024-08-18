@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using UrlShortener.Persistence;
+using UrlShortener.Persistence.DbContexts;
 
 namespace UrlShortener.IntegrationTests.Abstractions
 {

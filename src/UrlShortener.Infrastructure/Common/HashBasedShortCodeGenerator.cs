@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using UrlShortener.Application.Abstractions.Service;
+using UrlShortener.Application.Abstractions.Services;
 
 namespace UrlShortener.Infrastructure.Common
 {

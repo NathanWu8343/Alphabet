@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SharedKernel.Core
+﻿namespace SharedKernel.Core
 {
     /// <summary>
     /// Represents the marker interface for auditable entities.
@@ -14,11 +8,22 @@ namespace SharedKernel.Core
         /// <summary>
         /// Gets the created on date and time in UTC format.
         /// </summary>
-        DateTime CreatedOnUtc { get; }
+
+        DateTime CreatedAtUtc { get; }
 
         /// <summary>
         /// Gets the modified on date and time in UTC format.
         /// </summary>
-        DateTime? ModifiedOnUtc { get; }
+        DateTime? UpdatedAtUtc { get; }
+
+        /// <summary>
+        /// Gets the user who created the entity.
+        /// </summary>
+        string CreatedBy { get; }
+
+        /// <summary>
+        /// Gets the user who last modified the entity.
+        /// </summary>
+        string? UpdatedBy { get; }
     }
 }

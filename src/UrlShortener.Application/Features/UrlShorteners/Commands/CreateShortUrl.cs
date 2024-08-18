@@ -4,7 +4,7 @@ using SharedKernel.Messaging;
 using SharedKernel.Messaging.Base;
 using SharedKernel.Results;
 using UrlShortener.Application.Abstractions.Data;
-using UrlShortener.Application.Abstractions.Service;
+using UrlShortener.Application.Abstractions.Services;
 using UrlShortener.Application.Extensions;
 using UrlShortener.Domain.Entities;
 using UrlShortener.Domain.Repositories;

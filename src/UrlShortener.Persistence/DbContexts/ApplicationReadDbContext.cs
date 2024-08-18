@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UrlShortener.Application.Abstractions.Data;
-using UrlShortener.Application.Models;
+using UrlShortener.Application.ReadModels;
 using UrlShortener.Persistence.Extensions;
 
-namespace UrlShortener.Persistence
+namespace UrlShortener.Persistence.DbContexts
 {
     public sealed class ApplicationReadDbContext(DbContextOptions<ApplicationReadDbContext> options)
         : DbContext(options), IReadDbContext
@@ -16,6 +16,6 @@ namespace UrlShortener.Persistence
                         .ApplyUtcDateTimeConverter();
 
         private static bool ReadConfigurationsFilter(Type type) =>
-                type.FullName?.Contains("Configurations.Read") ?? false;
+                type.FullName?.Contains(nameof(Configurations.Read)) ?? false;
     }
 }

@@ -14,6 +14,8 @@ using UrlShortener.Application.Features.UrlShorteners.Commands;
 using UrlShortener.Application.Features.UrlShorteners.Queries;
 using OpenTelemetry.Trace;
 
+using SharedKernel.Maybe; // 确保引入了包含 MaybeExtensions 的命名空间
+
 namespace UrlShortener.Api.Controllers.v1
 {
     /// <summary>
@@ -92,9 +94,20 @@ namespace UrlShortener.Api.Controllers.v1
         {
             var result = await Maybe<GetVisitShortenUrlByCodeQuery>
                 .From(new GetVisitShortenUrlByCodeQuery(code))
-                .Bind(query => Dispatcher.Send(query, CancellationToken));
+                .Bind(func: query => Dispatcher.Send(query, CancellationToken))
+                .Bind(x => SendInvoiceEmailAsync(x))
+                .Bind(x => Task.FromResult(Maybe<string>.From(x)))
+                ;
+
+            var a = result.Bind(x => Maybe<string>.From(x));
 
             return result.HasValue ? Redirect(result.Value) : NotFound();
+        }
+
+        private async Task<Maybe<string>> SendInvoiceEmailAsync(string invoice)
+        {
+            // 假设发送邮件的操作，有可能失败
+            return await Task.FromResult(Maybe<string>.None);
         }
 
         /// <summary>

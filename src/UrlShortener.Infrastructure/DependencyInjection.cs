@@ -7,10 +7,11 @@ using SharedKernel.Common;
 using SharedKernel.Messaging;
 using StackExchange.Redis;
 using UrlShortener.Application.Abstractions.Caching;
-using UrlShortener.Application.Abstractions.Service;
+using UrlShortener.Application.Abstractions.Services;
 using UrlShortener.Infrastructure.Common;
 using UrlShortener.Infrastructure.Messages;
 using UrlShortener.Infrastructure.Redis;
+using UrlShortener.Infrastructure.Services;
 
 namespace UrlShortener.Infrastructure
 {
@@ -29,8 +30,10 @@ namespace UrlShortener.Infrastructure
             services.AddSingleton<IConnectionMultiplexer>(sp => sp.GetRequiredService<IRedisConnectionFactory>().GetConnection());
 
             services.AddSingleton<ICacheProvider, RedisCacheProvider>();
-
             services.AddTransient<IShortCodeGenerator, HashBasedShortCodeGenerator>();
+
+            services.AddHttpContextAccessor();
+            services.AddScoped<ICurrentSessionProvider, CurrentSessionProvider>();
 
             //services.Decorate(typeof(INotificationHandler<>), typeof(IdempotentDomainEventHandler<>));
 

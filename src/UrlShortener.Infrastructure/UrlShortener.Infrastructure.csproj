@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Elastic.Apm.StackExchange.Redis" Version="1.27.1" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
 
   </ItemGroup>

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using UrlShortener.Application.Abstractions.Data;
 using UrlShortener.IntegrationTests.Fixtures;
-using UrlShortener.Persistence;
+using UrlShortener.Persistence.DbContexts;
 
 namespace UrlShortener.IntegrationTests.Extensions
 {

@@ -7,7 +7,8 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Json;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pomelo.EntityFrameworkCore.MySql.Storage.Internal;
-using UrlShortener.Persistence.Outbox;
+using UrlShortener.Persistence.Models;
+
 
 #pragma warning disable 219, 612, 618
 #nullable disable

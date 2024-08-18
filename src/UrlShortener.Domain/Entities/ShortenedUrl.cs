@@ -6,18 +6,24 @@ using UrlShortener.Domain.ValueObjects;
 
 namespace UrlShortener.Domain.Entities
 {
-    public class ShortenedUrl : AggregateRoot<ShortenedUrlId>
+    public class ShortenedUrl : AggregateRoot<ShortenedUrlId>, IAuditableEntity
     {
-        public string LongUrl { get; private set; } = string.Empty;
+        public string LongUrl { get; set; } = string.Empty;
 
         public string ShortUrl { get; private set; } = string.Empty;
 
-        public string Code { get; private set; } = string.Empty;
+        public string Code { get; set; } = string.Empty;
 
         public DateTime CreatedAtUtc { get; private set; }
 
+        public DateTime? UpdatedAtUtc { get; private set; }
+
+        public string CreatedBy { get; private set; }
+
+        public string UpdatedBy { get; private set; } = string.Empty;
+
         private ShortenedUrl(ShortenedUrlId id, string longUrl, string shortUrl, string code, DateTime createdAtUtc)
-         : base(id)
+            : base(id)
         {
             LongUrl = longUrl;
             ShortUrl = shortUrl;

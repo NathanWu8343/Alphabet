@@ -6,6 +6,7 @@ using MySqlConnector;
 using SharedKernel.Common;
 using UrlShortener.Application.Abstractions.Data;
 using UrlShortener.Domain.Repositories;
+using UrlShortener.Persistence.DbContexts;
 using UrlShortener.Persistence.Extensions;
 using UrlShortener.Persistence.Interceptors;
 using UrlShortener.Persistence.Repositories;
@@ -30,8 +31,9 @@ namespace UrlShortener.Persistence
                 return new DbConnectionFactory(new MySqlConnection(connectionString));
             });
 
-            services.AddSingleton<ConvertDomainEventsToOutboxMessagesInterceptor>();
-            services.AddSingleton<UpdateAuditableEntitiesInterceptor>();
+            services.AddScoped<ConvertDomainEventsToOutboxMessagesInterceptor>();
+            services.AddScoped<UpdateAuditableEntitiesInterceptor>();
+            services.AddScoped<LogAuditableEntitiesInterceptor>();
 
             var serverVersion = new MariaDbServerVersion(new Version(10, 5, 5));
 
@@ -43,7 +45,9 @@ namespace UrlShortener.Persistence
                  .LogTo(Console.WriteLine, LogLevel.Information)
                  .AddInterceptors(
                         sp.GetRequiredService<ConvertDomainEventsToOutboxMessagesInterceptor>(),
-                        sp.GetRequiredService<UpdateAuditableEntitiesInterceptor>())
+                        sp.GetRequiredService<UpdateAuditableEntitiesInterceptor>(),
+                        sp.GetRequiredService<LogAuditableEntitiesInterceptor>()
+                        )
                  );
             //.UseSnakeCaseNamingConvention();
             //.AddInterceptors(sp.GetRequiredService<InsertOutboxMessagesInterceptor>()));

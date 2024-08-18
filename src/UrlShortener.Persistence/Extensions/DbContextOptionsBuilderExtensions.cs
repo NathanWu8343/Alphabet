@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using UrlShortener.Persistence.DbContexts;
 
 namespace UrlShortener.Persistence.Extensions
 {
@@ -10,7 +11,10 @@ namespace UrlShortener.Persistence.Extensions
             ServerVersion serverVersion)
         {
             var connectionString = dbConnectionFactory.GetConnection().ConnectionString;
-            optionsBuilder.UseMySql(connectionString, serverVersion);
+            optionsBuilder.UseMySql(connectionString, serverVersion, options =>
+            {
+                //options.MigrationsHistoryTable("__MyMigrationsHistory", "devtips_audit_trails");
+            });
 
             return optionsBuilder;
         }

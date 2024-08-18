@@ -9,7 +9,7 @@ using Testcontainers.MariaDb;
 using Testcontainers.Redis;
 using UrlShortener.Api;
 using UrlShortener.Infrastructure.Redis;
-using UrlShortener.Persistence;
+using UrlShortener.Persistence.DbContexts;
 
 namespace UrlShortener.IntegrationTests.Abstractions
 {

@@ -3,7 +3,7 @@ using UrlShortener.Application.Abstractions.Data;
 using UrlShortener.Domain.Entities;
 using UrlShortener.Persistence.Extensions;
 
-namespace UrlShortener.Persistence
+namespace UrlShortener.Persistence.DbContexts
 {
     public sealed class ApplicationWriteDbContext(DbContextOptions<ApplicationWriteDbContext> options)
         : DbContext(options), IUnitOfWork, IWriteDbContext
@@ -16,6 +16,6 @@ namespace UrlShortener.Persistence
                         .ApplyUtcDateTimeConverter();
 
         private static bool WriteConfigurationsFilter(Type type) =>
-                type.FullName?.Contains("Configurations.Write") ?? false;
+                type.FullName?.Contains(nameof(Configurations.Write)) ?? false;
     }
 }

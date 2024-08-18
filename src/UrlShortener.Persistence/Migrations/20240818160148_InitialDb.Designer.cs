@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using UrlShortener.Persistence;
+using UrlShortener.Persistence.DbContexts;
 
 #nullable disable
 
 namespace UrlShortener.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationWriteDbContext))]
-    [Migration("20240811155949_InitialDb")]
+    [Migration("20240818160148_InitialDb")]
     partial class InitialDb
     {
         /// <inheritdoc />
@@ -38,11 +38,22 @@ namespace UrlShortener.Persistence.Migrations
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("LongUrl")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("ShortUrl")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("UpdatedAtUtc")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("UpdatedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -52,6 +63,51 @@ namespace UrlShortener.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("ShortenedUrls", (string)null);
+                });
+
+            modelBuilder.Entity("UrlShortener.Persistence.Interceptors.AuditTrail", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("ChangedColumns")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DateAtUtc")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("EntityName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("NewValues")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("OldValues")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PrimaryKey")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("TrailType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EntityName");
+
+                    b.ToTable("AuditTrails", (string)null);
                 });
 
             modelBuilder.Entity("UrlShortener.Persistence.Outbox.OutboxMessage", b =>

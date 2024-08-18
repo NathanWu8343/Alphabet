@@ -1,6 +1,6 @@
 ﻿using UrlShortener.Domain.ValueObjects;
 
-namespace UrlShortener.Application.Models
+namespace UrlShortener.Application.ReadModels
 {
     public sealed class ShortenUrlReadModel
     {

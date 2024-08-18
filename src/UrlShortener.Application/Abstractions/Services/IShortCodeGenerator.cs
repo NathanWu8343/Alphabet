@@ -1,4 +1,4 @@
-﻿namespace UrlShortener.Application.Abstractions.Service
+﻿namespace UrlShortener.Application.Abstractions.Services
 {
     /// <summary>
     /// This interface is designed to asynchronously generate a short code based on a provided original URL.

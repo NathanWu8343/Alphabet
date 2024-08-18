@@ -1,6 +1,6 @@
 ﻿using UrlShortener.Application.Abstractions.Data;
 using UrlShortener.Domain.Entities;
-using UrlShortener.Persistence;
+using UrlShortener.Persistence.DbContexts;
 
 namespace UrlShortener.IntegrationTests.Fixtures
 {

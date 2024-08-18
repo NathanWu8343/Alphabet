@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
-using UrlShortener.Persistence;
+using UrlShortener.Persistence.DbContexts;
 
 namespace UrlShortener.Api.Extensions
 {

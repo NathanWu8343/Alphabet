@@ -1,7 +1,7 @@
 ﻿using MySqlConnector;
 using System.Data;
 
-namespace UrlShortener.Persistence
+namespace UrlShortener.Persistence.DbContexts
 {
     internal sealed class DbConnectionFactory(MySqlConnection connection)
     {

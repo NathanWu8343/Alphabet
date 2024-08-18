@@ -1,11 +1,10 @@
-﻿using Castle.Core.Logging;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Time.Testing;
 using NSubstitute;
 using UrlShortener.Application.Abstractions.Data;
-using UrlShortener.Application.Abstractions.Service;
+using UrlShortener.Application.Abstractions.Services;
 using UrlShortener.Application.Features.UrlShorteners.Commands;
 using UrlShortener.Domain.Entities;
 using UrlShortener.Domain.Repositories;

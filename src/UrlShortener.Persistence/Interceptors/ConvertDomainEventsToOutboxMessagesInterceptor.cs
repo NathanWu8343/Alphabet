@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using SharedKernel.Core;
 using System.Text.Json;
-using UrlShortener.Persistence.Outbox;
+using UrlShortener.Persistence.Models;
 
 namespace UrlShortener.Persistence.Interceptors
 {

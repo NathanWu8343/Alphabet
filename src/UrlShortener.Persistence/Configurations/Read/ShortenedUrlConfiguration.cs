@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NUlid;
-using UrlShortener.Application.Models;
+using UrlShortener.Application.ReadModels;
 using UrlShortener.Domain.ValueObjects;
 using UrlShortener.Persistence.Contants;
 

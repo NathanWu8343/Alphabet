@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SharedKernel.Errors;
 using UrlShortener.Api.Abstractions;
 
-namespace UrlShortener.Api.Filters
+namespace UrlShortener.Api.ActionFilters
 {
     /// <summary>
     /// ModeState Validateion filter

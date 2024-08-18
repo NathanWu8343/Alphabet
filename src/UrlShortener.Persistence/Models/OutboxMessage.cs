@@ -1,4 +1,4 @@
-﻿namespace UrlShortener.Persistence.Outbox
+﻿namespace UrlShortener.Persistence.Models
 {
     public sealed class OutboxMessage
     {

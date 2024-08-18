@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using UrlShortener.Persistence.Contants;
-using UrlShortener.Persistence.Outbox;
+using UrlShortener.Persistence.Models;
 
 namespace UrlShortener.Persistence.Configurations.Write
 {

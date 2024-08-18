@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace UrlShortener.Persistence
+namespace UrlShortener.Persistence.DbContexts
 {
     public class ApplicationDbContextDesignFactory : IDesignTimeDbContextFactory<ApplicationWriteDbContext>
     {
